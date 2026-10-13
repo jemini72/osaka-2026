@@ -2,10 +2,11 @@
 """
 HTML Builder for Osaka Master Travel Web Guide (Oct 17 - 21, 2026)
 Includes:
-- Dedicated Hotel & QR Check-in Tab with HOTELSMART code 073461
-- Interactive Leaflet Maps per day with numbered pins (🏨, ①, ②, ③...)
-- One-tap "Open Day Route in Google Maps" multi-stop route links
-- Large uncropped photos with tap-to-zoom fullscreen lightbox
+- Official Google Maps route screenshots for every day (no API key required!)
+- One-tap "Open in Google Maps App" multi-stop route links
+- Dedicated Hotel & QR Check-in Tab with cleanly cropped HOTELSMART code 073461
+- Street-level VIP Villa Namba exterior photos (storefront + hanging sign)
+- Large uncropped attraction photos with tap-to-zoom fullscreen lightbox
 - Responsive, mobile-first design with dark/light themes
 """
 
@@ -15,14 +16,11 @@ HTML_CONTENT = """<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Osaka Master Itinerary & Live Guide (Oct 17 – 21, 2026)</title>
-  <meta name="description" content="Action-packed, senior-optimized travel companion for Osaka, Kyoto, Nara, and USJ with live interactive maps, QR check-in, and attraction photos.">
+  <meta name="description" content="Action-packed, senior-optimized travel companion for Osaka, Kyoto, Nara, and USJ with Google Maps routes, QR check-in, and attraction photos.">
   <meta name="theme-color" content="#1a1c23">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-
-  <!-- Leaflet CSS for interactive maps -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
     :root {
@@ -565,13 +563,13 @@ HTML_CONTENT = """<!DOCTYPE html>
       line-height: 1.5;
     }
 
-    /* EMBEDDED INTERACTIVE MAP CARD */
+    /* GOOGLE MAPS ROUTE CARD */
     .day-map-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 28px;
+      padding: 22px;
+      margin-bottom: 30px;
       box-shadow: var(--shadow-soft);
     }
 
@@ -581,24 +579,44 @@ HTML_CONTENT = """<!DOCTYPE html>
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .day-map-title {
-      font-size: 1.08rem;
+      font-size: 1.12rem;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .day-map-container {
+    .map-screenshot-wrapper {
+      position: relative;
       width: 100%;
-      height: 380px;
+      min-height: 280px;
+      max-height: 520px;
+      background: #0b0c10;
       border-radius: var(--radius-md);
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-in;
       border: 1px solid var(--border-subtle);
-      z-index: 10;
+    }
+
+    .map-screenshot-img {
+      width: 100%;
+      height: 100%;
+      min-height: 280px;
+      max-height: 520px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .map-screenshot-wrapper:hover .map-screenshot-img {
+      transform: scale(1.02);
     }
 
     .map-legend-bar {
@@ -606,8 +624,8 @@ HTML_CONTENT = """<!DOCTYPE html>
       align-items: center;
       gap: 14px;
       flex-wrap: wrap;
-      margin-top: 12px;
-      font-size: 0.82rem;
+      margin-top: 14px;
+      font-size: 0.84rem;
       color: var(--text-muted);
     }
 
@@ -618,8 +636,8 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .legend-badge {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -627,6 +645,13 @@ HTML_CONTENT = """<!DOCTYPE html>
       font-size: 11px;
       font-weight: 800;
       color: #fff;
+    }
+    .pin-hotel {
+      background: #ffbe3b;
+      color: #000;
+    }
+    .pin-stop {
+      background: #ff334b;
     }
 
     /* Stop Cards Timeline */
@@ -1030,32 +1055,12 @@ HTML_CONTENT = """<!DOCTYPE html>
       background: rgba(255, 255, 255, 0.4);
     }
 
-    /* Custom Leaflet Map Pin Styles */
-    .custom-pin {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-weight: 800;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-      border: 2px solid #ffffff;
-      color: #ffffff;
-    }
-    .pin-hotel {
-      background: #ffbe3b;
-      color: #000;
-      font-size: 16px;
-    }
-    .pin-stop {
-      background: #ff334b;
-      font-size: 14px;
-    }
-
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .hero-title { font-size: 1.45rem; }
       .qr-grid { grid-template-columns: 1fr; gap: 20px; }
-      .day-map-container { height: 320px; }
+      .map-screenshot-wrapper { min-height: 240px; max-height: 400px; }
+      .map-screenshot-img { min-height: 240px; max-height: 400px; }
       .stop-image-wrapper {
         min-height: 320px;
         max-height: 520px;
@@ -1103,7 +1108,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     <!-- Overview Section -->
     <section id="overview" class="hero-card">
       <div class="hero-title">Osaka Master Trip (Oct 17 – 21, 2026)</div>
-      <div class="hero-subtitle">High-energy, senior-optimized travel companion featuring live interactive day maps with numbered pins, HOTELSMART check-in QR code, one-tap multi-stop Google Maps routes, and authentic dining.</div>
+      <div class="hero-subtitle">High-energy, senior-optimized travel companion featuring official Google Maps route screenshots, HOTELSMART check-in QR code, one-tap multi-stop Google Maps routes, and authentic dining.</div>
 
       <div class="trip-meta-grid">
         <div class="meta-box">
@@ -1211,15 +1216,23 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="day-theme">Fast bag drop, retro Tsutenkaku tower climb, fluffy soufflé pancakes, Dotonbori neon river cruise, and Hozenji Yokocho alley.</div>
       </div>
 
-      <!-- DAY 1 INTERACTIVE MAP -->
+      <!-- DAY 1 GOOGLE MAPS ROUTE CARD -->
       <div class="day-map-card">
         <div class="day-map-header">
-          <div class="day-map-title">📍 Day 1 Route & Numbered Stops</div>
+          <div class="day-map-title">🗺️ Day 1 Google Maps Route & Stops</div>
           <a class="btn-route-day" href="https://www.google.com/maps/dir/?api=1&origin=Eslead+Hotel+Namba+South+1+Osaka&destination=Eslead+Hotel+Namba+South+1+Osaka&waypoints=Tsutenkaku+Tower+Shinsekai|Den+Den+Town+Nipponbashi|A+Happy+Pancake+Shinsaibashi|Dotonbori+Glico+Sign|Hozenji+Yokocho+Osaka&travelmode=transit" target="_blank" rel="noopener">
-            🗺️ Open Day 1 Route in Google Maps
+            📍 Open Day 1 Route in Google Maps App
           </a>
         </div>
-        <div id="map-day1" class="day-map-container"></div>
+        
+        <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day1.jpg', 'Day 1 Google Maps Route & Stops')">
+          <img class="map-screenshot-img" src="images/gmap_route_day1.jpg" alt="Day 1 Google Maps Itinerary" loading="lazy">
+          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-tag-time">Full Day Flow</span>
+          <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
+        </div>
+        <div class="photo-caption">🗺️ Google Maps itinerary route: Eslead Hotel Namba South 1 → Shinsekai → Den Den Town → Shinsaibashi → Dotonbori → Hozenji Yokocho.</div>
+
         <div class="map-legend-bar">
           <div class="legend-item"><span class="legend-badge pin-hotel">🏨</span> <span>Eslead Hotel (Base)</span></div>
           <div class="legend-item"><span class="legend-badge pin-stop">1</span> <span>Shinsekai & Tsutenkaku</span></div>
@@ -1410,15 +1423,23 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="day-theme">Osaka Castle road train & moat boat, Kuromon seafood banquet, Lion Head shrine, department store shopping, and Harukas 300 golden hour.</div>
       </div>
 
-      <!-- DAY 2 INTERACTIVE MAP -->
+      <!-- DAY 2 GOOGLE MAPS ROUTE CARD -->
       <div class="day-map-card">
         <div class="day-map-header">
-          <div class="day-map-title">📍 Day 2 Route & Numbered Stops</div>
+          <div class="day-map-title">🗺️ Day 2 Google Maps Route & Stops</div>
           <a class="btn-route-day" href="https://www.google.com/maps/dir/?api=1&origin=Eslead+Hotel+Namba+South+1+Osaka&destination=Harukas+300+Observatory+Osaka&waypoints=Osaka+Castle+Main+Keep|Kuromon+Ichiba+Market|Namba+Yasaka+Shrine|Takashimaya+Osaka+Store+Namba&travelmode=transit" target="_blank" rel="noopener">
-            🗺️ Open Day 2 Route in Google Maps
+            📍 Open Day 2 Route in Google Maps App
           </a>
         </div>
-        <div id="map-day2" class="day-map-container"></div>
+        
+        <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day2.jpg', 'Day 2 Google Maps Route & Stops')">
+          <img class="map-screenshot-img" src="images/gmap_route_day2.jpg" alt="Day 2 Google Maps Itinerary" loading="lazy">
+          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-tag-time">Full Day Flow</span>
+          <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
+        </div>
+        <div class="photo-caption">🗺️ Google Maps itinerary route: Eslead Hotel Namba South 1 → Osaka Castle → Kuromon Market → Namba Yasaka Shrine → Takashimaya → Abeno Harukas 300.</div>
+
         <div class="map-legend-bar">
           <div class="legend-item"><span class="legend-badge pin-hotel">🏨</span> <span>Eslead Hotel (Base)</span></div>
           <div class="legend-item"><span class="legend-badge pin-stop">1</span> <span>Osaka Castle Keep</span></div>
@@ -1595,15 +1616,23 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="day-theme">UNESCO World Heritage wonders: Fushimi Inari Torii gates, Golden Pavilion, Arashiyama, bowing Nara deer, and Kobe Wagyu Shabu-Shabu lunch!</div>
       </div>
 
-      <!-- DAY 3 INTERACTIVE MAP -->
+      <!-- DAY 3 GOOGLE MAPS ROUTE CARD -->
       <div class="day-map-card">
         <div class="day-map-header">
-          <div class="day-map-title">📍 Day 3 Route & Numbered Tour Stops</div>
+          <div class="day-map-title">🗺️ Day 3 Google Maps Tour Route & Highlights</div>
           <a class="btn-route-day" href="https://www.google.com/maps/dir/?api=1&origin=VIP+Villa+Namba+Osaka&destination=VIP+Villa+Namba+Osaka&waypoints=Fushimi+Inari+Taisha+Kyoto|Kinkaku-ji+Kyoto|Arashiyama+Bamboo+Grove+Kyoto|Nara+Park+Todaiji&travelmode=driving" target="_blank" rel="noopener">
-            🗺️ Open Day 3 Route in Google Maps
+            📍 Open Day 3 Route in Google Maps App
           </a>
         </div>
-        <div id="map-day3" class="day-map-container"></div>
+        
+        <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day3.jpg', 'Day 3 Kyoto & Nara Google Maps Tour Route')">
+          <img class="map-screenshot-img" src="images/gmap_route_day3.jpg" alt="Day 3 Google Maps Itinerary" loading="lazy">
+          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-tag-time">Full Day Guided Flow</span>
+          <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
+        </div>
+        <div class="photo-caption">🗺️ Guided tour coach itinerary: VIP Villa Namba (07:50 AM pickup) → Fushimi Inari (Kyoto) → Kinkaku-ji → Arashiyama → Nara Park.</div>
+
         <div class="map-legend-bar">
           <div class="legend-item"><span class="legend-badge pin-hotel">🏨</span> <span>Eslead Hotel (Base)</span></div>
           <div class="legend-item"><span class="legend-badge pin-stop">1</span> <span>VIP Villa Namba (07:50A Pickup)</span></div>
@@ -1761,15 +1790,23 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="day-theme">Super Nintendo World rope-drop mission without Express Pass, Harry Potter Hogsmeade, seated shows, and CityWalk dining.</div>
       </div>
 
-      <!-- DAY 4 INTERACTIVE MAP -->
+      <!-- DAY 4 GOOGLE MAPS ROUTE CARD -->
       <div class="day-map-card">
         <div class="day-map-header">
-          <div class="day-map-title">📍 Day 4 Route & Numbered Stops</div>
+          <div class="day-map-title">🗺️ Day 4 Google Maps Route & Stops</div>
           <a class="btn-route-day" href="https://www.google.com/maps/dir/?api=1&origin=Eslead+Hotel+Namba+South+1+Osaka&destination=Universal+Studios+Japan+Osaka&travelmode=transit" target="_blank" rel="noopener">
-            🗺️ Open Day 4 Route in Google Maps
+            📍 Open Day 4 Route in Google Maps App
           </a>
         </div>
-        <div id="map-day4" class="day-map-container"></div>
+        
+        <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day4.jpg', 'Day 4 Universal Studios Japan Google Maps Route')">
+          <img class="map-screenshot-img" src="images/gmap_route_day4.jpg" alt="Day 4 Google Maps Itinerary" loading="lazy">
+          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-tag-time">Full Day Flow</span>
+          <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
+        </div>
+        <div class="photo-caption">🗺️ Google Maps transit route: Eslead Hotel Namba South 1 → Universal Studios Japan (USJ) & Universal CityWalk.</div>
+
         <div class="map-legend-bar">
           <div class="legend-item"><span class="legend-badge pin-hotel">🏨</span> <span>Eslead Hotel (Base)</span></div>
           <div class="legend-item"><span class="legend-badge pin-stop">1</span> <span>Universal Studios Japan (USJ)</span></div>
@@ -1853,15 +1890,23 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="day-theme">Zero-stairs Kaiyukan Aquarium spiral, Santa Maria harbor cruise, Depachika gourmet souvenir haul, MEGA Donki, and private airport send-off.</div>
       </div>
 
-      <!-- DAY 5 INTERACTIVE MAP -->
+      <!-- DAY 5 GOOGLE MAPS ROUTE CARD -->
       <div class="day-map-card">
         <div class="day-map-header">
-          <div class="day-map-title">📍 Day 5 Route & Numbered Stops</div>
+          <div class="day-map-title">🗺️ Day 5 Google Maps Route & Stops</div>
           <a class="btn-route-day" href="https://www.google.com/maps/dir/?api=1&origin=Eslead+Hotel+Namba+South+1+Osaka&destination=Kansai+International+Airport+Terminal+1&waypoints=Osaka+Aquarium+Kaiyukan|Namba+Parks+Osaka|MEGA+Don+Quijote+Shinsekai&travelmode=transit" target="_blank" rel="noopener">
-            🗺️ Open Day 5 Route in Google Maps
+            📍 Open Day 5 Route in Google Maps App
           </a>
         </div>
-        <div id="map-day5" class="day-map-container"></div>
+        
+        <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day5.jpg', 'Day 5 Google Maps Route & Stops')">
+          <img class="map-screenshot-img" src="images/gmap_route_day5.jpg" alt="Day 5 Google Maps Itinerary" loading="lazy">
+          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-tag-time">Full Day Flow</span>
+          <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
+        </div>
+        <div class="photo-caption">🗺️ Google Maps itinerary route: Eslead Hotel Namba South 1 → Kaiyukan Aquarium → Namba Parks → MEGA Donki → Kansai Airport (KIX).</div>
+
         <div class="map-legend-bar">
           <div class="legend-item"><span class="legend-badge pin-hotel">🏨</span> <span>Eslead Hotel (Base)</span></div>
           <div class="legend-item"><span class="legend-badge pin-stop">1</span> <span>Kaiyukan Aquarium</span></div>
@@ -2061,13 +2106,10 @@ HTML_CONTENT = """<!DOCTYPE html>
   <div id="lightboxModal" class="lightbox-backdrop" onclick="closeLightbox()">
     <div class="lightbox-img-box" onclick="event.stopPropagation()">
       <button class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Close">✕</button>
-      <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged Attraction Photo">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged Photo">
       <div id="lightboxCaption" class="lightbox-caption"></div>
     </div>
   </div>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
     // Theme Toggle
@@ -2158,133 +2200,6 @@ HTML_CONTENT = """<!DOCTYPE html>
         }
       });
     });
-
-    // -------------------------------------------------------------
-    // LEAFLET MAP INITIALIZATIONS WITH NUMBERED PINS & HOTEL PIN
-    // -------------------------------------------------------------
-    const HOTEL_COORD = [34.6528, 135.5032]; // Eslead Hotel Namba South 1
-
-    function createPinIcon(label, isHotel) {
-      const className = isHotel ? 'custom-pin pin-hotel' : 'custom-pin pin-stop';
-      const text = isHotel ? '🏨' : label;
-      return L.divIcon({
-        className: '',
-        html: `<div class="${className}" style="width:30px; height:30px;">${text}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-        popupAnchor: [0, -16]
-      });
-    }
-
-    const tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-    const tileAttr = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
-
-    // Day 1 Map
-    const map1 = L.map('map-day1').setView(HOTEL_COORD, 14);
-    L.tileLayer(tileUrl, { attribution: tileAttr, maxZoom: 19 }).addTo(map1);
-    const day1Points = [
-      { name: "Eslead Hotel Namba South 1", coord: HOTEL_COORD, isHotel: true },
-      { name: "1. Shinsekai & Tsutenkaku Tower", coord: [34.6525, 135.5063], isHotel: false, num: 1 },
-      { name: "2. Den Den Town Nipponbashi", coord: [34.6588, 135.5058], isHotel: false, num: 2 },
-      { name: "3. Shinsaibashi-Suji Pancakes", coord: [34.6738, 135.5011], isHotel: false, num: 3 },
-      { name: "4. Dotonbori River Cruise", coord: [34.6687, 135.5013], isHotel: false, num: 4 },
-      { name: "5. Hozenji Yokocho Alley", coord: [34.6679, 135.5023], isHotel: false, num: 5 }
-    ];
-    const d1LatLngs = [];
-    day1Points.forEach(pt => {
-      d1LatLngs.push(pt.coord);
-      L.marker(pt.coord, { icon: createPinIcon(pt.num, pt.isHotel) })
-        .bindPopup(`<strong>${pt.name}</strong>`)
-        .addTo(map1);
-    });
-    L.polyline(d1LatLngs, { color: '#ff334b', weight: 3, opacity: 0.8, dashArray: '6, 8' }).addTo(map1);
-    map1.fitBounds(d1LatLngs, { padding: [35, 35] });
-
-    // Day 2 Map
-    const map2 = L.map('map-day2').setView(HOTEL_COORD, 13);
-    L.tileLayer(tileUrl, { attribution: tileAttr, maxZoom: 19 }).addTo(map2);
-    const day2Points = [
-      { name: "Eslead Hotel Namba South 1", coord: HOTEL_COORD, isHotel: true },
-      { name: "1. Osaka Castle Main Keep", coord: [34.6873, 135.5262], isHotel: false, num: 1 },
-      { name: "2. Kuromon Ichiba Market", coord: [34.6654, 135.5073], isHotel: false, num: 2 },
-      { name: "3. Namba Yasaka Shrine", coord: [34.6617, 135.4965], isHotel: false, num: 3 },
-      { name: "4. Takashimaya Namba & Den Den Town", coord: [34.6644, 135.5015], isHotel: false, num: 4 },
-      { name: "5. Abeno Harukas 300", coord: [34.6459, 135.5139], isHotel: false, num: 5 }
-    ];
-    const d2LatLngs = [];
-    day2Points.forEach(pt => {
-      d2LatLngs.push(pt.coord);
-      L.marker(pt.coord, { icon: createPinIcon(pt.num, pt.isHotel) })
-        .bindPopup(`<strong>${pt.name}</strong>`)
-        .addTo(map2);
-    });
-    L.polyline(d2LatLngs, { color: '#ff334b', weight: 3, opacity: 0.8, dashArray: '6, 8' }).addTo(map2);
-    map2.fitBounds(d2LatLngs, { padding: [35, 35] });
-
-    // Day 3 Map
-    const map3 = L.map('map-day3').setView([34.90, 135.70], 10);
-    L.tileLayer(tileUrl, { attribution: tileAttr, maxZoom: 19 }).addTo(map3);
-    const day3Points = [
-      { name: "Eslead Hotel Namba South 1", coord: HOTEL_COORD, isHotel: true },
-      { name: "1. VIP Villa Namba (07:50 AM Pickup)", coord: [34.6631, 135.4984], isHotel: false, num: 1 },
-      { name: "2. Fushimi Inari Taisha (Kyoto)", coord: [34.9671, 135.7727], isHotel: false, num: 2 },
-      { name: "3. Kinkaku-ji (Kyoto)", coord: [35.0394, 135.7292], isHotel: false, num: 3 },
-      { name: "4. Arashiyama Bamboo Grove (Kyoto)", coord: [35.0168, 135.6713], isHotel: false, num: 4 },
-      { name: "5. Nara Park & Todai-ji (Nara)", coord: [34.6850, 135.8398], isHotel: false, num: 5 }
-    ];
-    const d3LatLngs = [];
-    day3Points.forEach(pt => {
-      d3LatLngs.push(pt.coord);
-      L.marker(pt.coord, { icon: createPinIcon(pt.num, pt.isHotel) })
-        .bindPopup(`<strong>${pt.name}</strong>`)
-        .addTo(map3);
-    });
-    L.polyline(d3LatLngs, { color: '#8b5cf6', weight: 3, opacity: 0.8, dashArray: '6, 8' }).addTo(map3);
-    map3.fitBounds(d3LatLngs, { padding: [35, 35] });
-
-    // Day 4 Map
-    const map4 = L.map('map-day4').setView(HOTEL_COORD, 12);
-    L.tileLayer(tileUrl, { attribution: tileAttr, maxZoom: 19 }).addTo(map4);
-    const day4Points = [
-      { name: "Eslead Hotel Namba South 1", coord: HOTEL_COORD, isHotel: true },
-      { name: "1. Universal Studios Japan & Nintendo World", coord: [34.6654, 135.4323], isHotel: false, num: 1 },
-      { name: "2. Universal CityWalk Osaka", coord: [34.6675, 135.4368], isHotel: false, num: 2 }
-    ];
-    const d4LatLngs = [];
-    day4Points.forEach(pt => {
-      d4LatLngs.push(pt.coord);
-      L.marker(pt.coord, { icon: createPinIcon(pt.num, pt.isHotel) })
-        .bindPopup(`<strong>${pt.name}</strong>`)
-        .addTo(map4);
-    });
-    L.polyline(d4LatLngs, { color: '#ff334b', weight: 3, opacity: 0.8, dashArray: '6, 8' }).addTo(map4);
-    map4.fitBounds(d4LatLngs, { padding: [40, 40] });
-
-    // Day 5 Map
-    const map5 = L.map('map-day5').setView(HOTEL_COORD, 12);
-    L.tileLayer(tileUrl, { attribution: tileAttr, maxZoom: 19 }).addTo(map5);
-    const day5Points = [
-      { name: "Eslead Hotel Namba South 1", coord: HOTEL_COORD, isHotel: true },
-      { name: "1. Osaka Aquarium Kaiyukan", coord: [34.6545, 135.4290], isHotel: false, num: 1 },
-      { name: "2. Santa Maria Cruise & Ferris Wheel", coord: [34.6558, 135.4305], isHotel: false, num: 2 },
-      { name: "3. Namba Parks Canyon Terraces", coord: [34.6616, 135.5020], isHotel: false, num: 3 },
-      { name: "4. Takashimaya Depachika", coord: [34.6644, 135.5015], isHotel: false, num: 4 },
-      { name: "5. MEGA Don Quijote Shinsekai", coord: [34.6508, 135.5048], isHotel: false, num: 5 }
-    ];
-    const d5LatLngs = [];
-    day5Points.forEach(pt => {
-      d5LatLngs.push(pt.coord);
-      L.marker(pt.coord, { icon: createPinIcon(pt.num, pt.isHotel) })
-        .bindPopup(`<strong>${pt.name}</strong>`)
-        .addTo(map5);
-    });
-    L.polyline(d5LatLngs, { color: '#ff334b', weight: 3, opacity: 0.8, dashArray: '6, 8' }).addTo(map5);
-    map5.fitBounds(d5LatLngs, { padding: [35, 35] });
-
-    // Ensure map tiles render properly when scrolled/resized
-    window.addEventListener('resize', () => {
-      [map1, map2, map3, map4, map5].forEach(m => m.invalidateSize());
-    });
   </script>
 
 </body>
@@ -2295,4 +2210,4 @@ import os
 with open(r'c:\Users\Desktop\Documents\antigravity\amazing-tesla\index.html', 'w', encoding='utf-8') as f:
     f.write(HTML_CONTENT)
 
-print("index.html with interactive maps and Hotel QR updated successfully.")
+print("Updated index.html with real Google Maps route screenshots and zero API key watermarks.")
