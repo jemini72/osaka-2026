@@ -1614,15 +1614,23 @@ HTML_CONTENT = """<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- Tour Confirmation Box with Meeting Point Photo -->
-      <div class="stop-card" style="margin-bottom: 24px; border-color: rgba(139, 92, 246, 0.4);">
-        <div class="stop-image-wrapper" onclick="openLightbox('images/vip_villa_namba_1.jpg', 'VIP Villa Namba Tour Pickup Lounge')">
-          <img class="stop-image" src="images/vip_villa_namba_1.jpg" alt="VIP Villa Namba Tour Meeting Point" loading="lazy">
-          <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
-          <span class="image-tag-time">07:50 AM Sharp</span>
-          <span class="image-tag-badge" style="background: var(--accent-purple);">Pickup Lounge</span>
+      <!-- Tour Confirmation Box with Meeting Point Photos -->
+      <div class="stop-card" style="margin-bottom: 24px; border-color: rgba(139, 92, 246, 0.45);">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4px; background: #0b0c10;">
+          <div class="stop-image-wrapper" style="min-height: 320px;" onclick="openLightbox('images/vip_villa_namba_1.jpg', 'VIP Villa Namba Storefront & Bus Stop Entrance')">
+            <img class="stop-image" style="min-height: 320px;" src="images/vip_villa_namba_1.jpg" alt="VIP Villa Namba Street Entrance" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Storefront View</span>
+            <span class="image-tag-time">07:50 AM Sharp</span>
+            <span class="image-tag-badge" style="background: var(--accent-purple);">Tour Pickup</span>
+          </div>
+          <div class="stop-image-wrapper" style="min-height: 320px;" onclick="openLightbox('images/vip_villa_namba_2.jpg', 'VIP Villa Namba Hanging Street Sign')">
+            <img class="stop-image" style="min-height: 320px;" src="images/vip_villa_namba_2.jpg" alt="VIP Villa Namba Hanging Sign" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Hanging Sign View</span>
+            <span class="image-tag-time">Sidewalk Landmark</span>
+            <span class="image-tag-badge" style="background: var(--accent-purple);">Look for Sign</span>
+          </div>
         </div>
-        <div class="photo-caption">📸 Inside the VIP Villa Namba meeting lounge & powder room (1-2-1 Nanbanaka, Naniwa-ku). Look for TABIARUKO flag.</div>
+        <div class="photo-caption">📸 VIP villa Namba (1-2-1 Nanbanaka) — Storefront entrance with red awning & VIP LINER bus stop sign, plus round sidewalk sign under elevated road.</div>
         <div class="stop-body">
           <h3 class="stop-title" style="margin-bottom: 8px;">1. VIP Villa Namba Tour Pickup Point</h3>
           <div class="stop-desc">

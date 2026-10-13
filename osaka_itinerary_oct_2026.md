@@ -110,6 +110,8 @@
   * **Local Agency Contact:** +81 0484877024
 
 * **Meeting Location & Times (STRICT):**
+  ![VIP Villa Namba Storefront Entrance](images/vip_villa_namba_1.jpg)
+  ![VIP Villa Namba Street Sign](images/vip_villa_namba_2.jpg)
   * **Pick-up Point:** **VIP Villa Namba** (1-2-1 Nanbanaka, Naniwa-ku)
   * **Meeting Time:** **07:50 AM (JST)** *(Arrive 10 mins early)*
   * **Departure Time:** **08:00 AM (JST) Sharp**
