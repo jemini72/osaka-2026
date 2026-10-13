@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 """
 HTML Builder for Osaka Master Travel Web Guide (Oct 17 - 21, 2026)
-Generates a responsive, mobile-first, luxury travel PWA/web companion.
+Generates an expansive, mobile-optimized, luxury travel web companion
+with large, high-visibility photos, interactive lightbox, and detailed guides.
 """
-
-import os
 
 HTML_CONTENT = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Osaka Master Itinerary (Oct 17 – 21, 2026)</title>
-  <meta name="description" content="Action-packed, senior-optimized travel guide for Osaka, Kyoto, Nara, and USJ with live maps, transit guides, and attraction photos.">
+  <meta name="description" content="Action-packed, senior-optimized travel guide for Osaka, Kyoto, Nara, and USJ with large photos, live maps, and transit navigation.">
   <meta name="theme-color" content="#1a1c23">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,13 +36,13 @@ HTML_CONTENT = """<!DOCTYPE html>
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
-      --shadow-soft: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      --shadow-soft: 0 12px 36px -10px rgba(0, 0, 0, 0.55);
       --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --font-jp: 'Noto Sans JP', sans-serif;
     }
 
     [data-theme="light"] {
-      --bg-primary: #f6f7fb;
+      --bg-primary: #f5f6fa;
       --bg-surface: #ffffff;
       --bg-card: #ffffff;
       --bg-card-hover: #f9fafc;
@@ -51,7 +50,7 @@ HTML_CONTENT = """<!DOCTYPE html>
       --text-muted: #5e657c;
       --text-dim: #8b92a8;
       --border-subtle: #e2e5ee;
-      --shadow-soft: 0 10px 25px -8px rgba(0, 0, 0, 0.08);
+      --shadow-soft: 0 12px 30px -8px rgba(0, 0, 0, 0.08);
     }
 
     * {
@@ -65,8 +64,8 @@ HTML_CONTENT = """<!DOCTYPE html>
       font-family: var(--font-main);
       background-color: var(--bg-primary);
       color: var(--text-main);
-      line-height: 1.55;
-      padding-bottom: 90px;
+      line-height: 1.6;
+      padding-bottom: 110px;
       transition: background-color 0.25s ease, color 0.25s ease;
     }
 
@@ -75,21 +74,21 @@ HTML_CONTENT = """<!DOCTYPE html>
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15, 17, 23, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(15, 17, 23, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-subtle);
       transition: background-color 0.25s ease;
     }
 
     [data-theme="light"] header {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.92);
     }
 
     .top-nav {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 12px 18px;
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -98,34 +97,34 @@ HTML_CONTENT = """<!DOCTYPE html>
     .logo-badge {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .logo-badge h1 {
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .logo-badge .flag {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
     }
 
     .theme-toggle-btn {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       color: var(--text-main);
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.05rem;
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
@@ -135,14 +134,14 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     /* Horizontal Quick Day Bar */
     .day-selector-wrapper {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 0 16px 10px;
+      padding: 0 18px 12px;
       overflow-x: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
       display: flex;
-      gap: 8px;
+      gap: 10px;
     }
 
     .day-selector-wrapper::-webkit-scrollbar {
@@ -151,9 +150,9 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     .day-pill {
       flex: 0 0 auto;
-      padding: 7px 14px;
+      padding: 8px 16px;
       border-radius: 30px;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 700;
       text-decoration: none;
       color: var(--text-muted);
@@ -169,14 +168,14 @@ HTML_CONTENT = """<!DOCTYPE html>
       color: #fff;
       background: var(--accent-red);
       border-color: var(--accent-red);
-      box-shadow: 0 4px 14px var(--accent-red-glow);
+      box-shadow: 0 4px 16px var(--accent-red-glow);
     }
 
     /* Main Container */
     main {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 16px 16px 30px;
+      padding: 24px 20px 40px;
     }
 
     /* Hero Banner */
@@ -184,8 +183,8 @@ HTML_CONTENT = """<!DOCTYPE html>
       background: linear-gradient(145deg, #1f2434 0%, #151822 100%);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 24px;
+      padding: 28px;
+      margin-bottom: 30px;
       position: relative;
       overflow: hidden;
       box-shadow: var(--shadow-soft);
@@ -200,43 +199,44 @@ HTML_CONTENT = """<!DOCTYPE html>
       position: absolute;
       top: -50px;
       right: -50px;
-      width: 180px;
-      height: 180px;
+      width: 220px;
+      height: 220px;
       background: radial-gradient(circle, var(--accent-red-glow) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
 
     .hero-title {
-      font-size: 1.55rem;
+      font-size: 1.75rem;
       font-weight: 800;
       line-height: 1.25;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       letter-spacing: -0.02em;
     }
 
     .hero-subtitle {
       color: var(--text-muted);
-      font-size: 0.92rem;
-      margin-bottom: 16px;
+      font-size: 0.98rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
 
     .trip-meta-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
-      margin-top: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
     }
 
     .meta-box {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 10px 14px;
+      padding: 12px 16px;
     }
 
     .meta-label {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-dim);
@@ -244,29 +244,29 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .meta-value {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--text-main);
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
-    /* Fast Action Cards (Driver Card, Tour Card) */
+    /* Fast Action Cards */
     .quick-access-banner {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 14px;
+      margin-bottom: 30px;
     }
 
     .action-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 16px;
+      padding: 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
+      gap: 16px;
       text-decoration: none;
       color: inherit;
       transition: transform 0.15s ease, border-color 0.15s ease;
@@ -278,7 +278,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .action-card-icon {
-      font-size: 1.8rem;
+      font-size: 2rem;
       flex: 0 0 auto;
     }
 
@@ -287,7 +287,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .action-card-title {
-      font-size: 0.95rem;
+      font-size: 1.02rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -295,15 +295,16 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .action-card-desc {
-      font-size: 0.82rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 4px;
+      line-height: 1.45;
     }
 
     .action-badge {
       display: inline-block;
-      padding: 2px 8px;
-      font-size: 0.7rem;
+      padding: 3px 9px;
+      font-size: 0.72rem;
       font-weight: 700;
       border-radius: 4px;
       background: var(--accent-red);
@@ -314,20 +315,21 @@ HTML_CONTENT = """<!DOCTYPE html>
       flex: 0 0 auto;
       background: #4285F4;
       color: #fff;
-      padding: 8px 12px;
+      padding: 10px 15px;
       border-radius: var(--radius-sm);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 700;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       white-space: nowrap;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, transform 0.15s;
     }
 
     .btn-maps:hover {
       opacity: 0.9;
+      transform: translateY(-1px);
     }
 
     /* Hotel Japanese Card */
@@ -335,8 +337,9 @@ HTML_CONTENT = """<!DOCTYPE html>
       background: linear-gradient(135deg, #1b2030, #141824);
       border: 1px solid #363d56;
       border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 24px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow-soft);
     }
 
     [data-theme="light"] .hotel-kanji-card {
@@ -348,11 +351,11 @@ HTML_CONTENT = """<!DOCTYPE html>
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .hotel-kanji-title {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--accent-gold);
@@ -361,10 +364,11 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     .kanji-text {
       font-family: var(--font-jp);
-      font-size: 1.15rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
     }
 
     [data-theme="light"] .kanji-text {
@@ -373,22 +377,22 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     .kanji-address {
       font-family: var(--font-jp);
-      font-size: 0.92rem;
+      font-size: 1rem;
       color: var(--text-muted);
     }
 
     /* Day Section */
     .day-section {
-      margin-bottom: 36px;
-      scroll-margin-top: 100px;
+      margin-bottom: 54px;
+      scroll-margin-top: 110px;
     }
 
     .day-header {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
       border-bottom: 2px solid var(--border-subtle);
     }
 
@@ -397,21 +401,21 @@ HTML_CONTENT = """<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .day-title {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .day-date-tag {
-      font-size: 0.8rem;
-      padding: 4px 12px;
+      font-size: 0.85rem;
+      padding: 5px 14px;
       border-radius: 20px;
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
@@ -421,15 +425,16 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     .day-theme {
       color: var(--text-muted);
-      font-size: 0.88rem;
+      font-size: 0.94rem;
       font-style: italic;
+      line-height: 1.5;
     }
 
     /* Stop Cards Timeline */
     .timeline {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 32px;
       position: relative;
     }
 
@@ -443,118 +448,165 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .stop-card:hover {
-      border-color: rgba(255, 51, 75, 0.4);
+      border-color: rgba(255, 51, 75, 0.45);
     }
 
     .stop-card.done {
-      opacity: 0.6;
+      opacity: 0.65;
     }
 
+    /* EXPANDED, IMMERSIVE IMAGE DISPLAY */
     .stop-image-wrapper {
       position: relative;
       width: 100%;
-      height: 220px;
+      min-height: 380px;
+      max-height: 640px;
+      background: #0d0f15;
       overflow: hidden;
-      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-in;
+    }
+
+    [data-theme="light"] .stop-image-wrapper {
+      background: #e5e8f0;
     }
 
     .stop-image {
       width: 100%;
       height: 100%;
+      min-height: 380px;
+      max-height: 640px;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      object-position: center;
+      display: block;
+      transition: transform 0.35s ease;
     }
 
     .stop-card:hover .stop-image {
-      transform: scale(1.03);
+      transform: scale(1.025);
     }
 
-    .image-tag-time {
+    .image-zoom-indicator {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background: rgba(15, 17, 23, 0.85);
+      top: 14px;
+      left: 14px;
+      background: rgba(15, 17, 23, 0.8);
       backdrop-filter: blur(8px);
       color: #fff;
       padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .image-tag-time {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(15, 17, 23, 0.88);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.84rem;
       font-weight: 700;
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .image-tag-badge {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 14px;
+      right: 14px;
       background: var(--accent-red);
       color: #fff;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 6px;
-      font-size: 0.72rem;
+      font-size: 0.76rem;
       font-weight: 800;
       text-transform: uppercase;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+    }
+
+    .photo-caption {
+      padding: 10px 20px;
+      font-size: 0.84rem;
+      color: var(--text-dim);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .stop-body {
-      padding: 18px;
+      padding: 24px;
     }
 
     .stop-header-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .stop-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .stop-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.55;
+      gap: 14px;
       margin-bottom: 14px;
     }
 
+    .stop-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .stop-desc {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.68;
+      margin-bottom: 18px;
+    }
+
     .stop-desc ul {
-      margin-left: 20px;
-      margin-top: 6px;
+      margin-left: 22px;
+      margin-top: 8px;
     }
 
     .stop-desc li {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .highlight-tip {
-      background: rgba(255, 190, 59, 0.1);
-      border-left: 3px solid var(--accent-gold);
-      padding: 10px 14px;
+      background: rgba(255, 190, 59, 0.12);
+      border-left: 4px solid var(--accent-gold);
+      padding: 14px 18px;
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      font-size: 0.84rem;
+      font-size: 0.88rem;
       color: var(--text-main);
-      margin: 10px 0 14px;
+      margin: 14px 0 18px;
+      line-height: 1.6;
     }
 
     .transit-guide-box {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      font-size: 0.84rem;
-      margin-bottom: 14px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 12px;
+      line-height: 1.5;
     }
 
     .transit-guide-box .t-icon {
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       flex: 0 0 auto;
       margin-top: 1px;
     }
@@ -564,28 +616,28 @@ HTML_CONTENT = """<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       border-top: 1px solid var(--border-subtle);
-      padding-top: 14px;
+      padding-top: 16px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
     .check-btn-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       cursor: pointer;
       user-select: none;
     }
 
     .check-btn-wrap input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       accent-color: var(--accent-green);
       cursor: pointer;
     }
 
     .check-btn-label {
-      font-size: 0.82rem;
+      font-size: 0.86rem;
       font-weight: 600;
       color: var(--text-dim);
     }
@@ -595,9 +647,9 @@ HTML_CONTENT = """<!DOCTYPE html>
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 2px 7px;
+      padding: 3px 8px;
       border-radius: 4px;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       font-weight: 700;
       color: #fff;
     }
@@ -611,44 +663,44 @@ HTML_CONTENT = """<!DOCTYPE html>
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 22px;
-      margin-bottom: 24px;
+      padding: 28px;
+      margin-bottom: 30px;
     }
 
     .cheat-card h3 {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .cheat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
     }
 
     .cheat-item {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 16px;
     }
 
     .cheat-item h4 {
-      font-size: 0.92rem;
-      margin-bottom: 6px;
+      font-size: 0.96rem;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .cheat-item p {
-      font-size: 0.84rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     /* Sticky Bottom Nav Bar */
@@ -658,8 +710,8 @@ HTML_CONTENT = """<!DOCTYPE html>
       left: 0;
       right: 0;
       background: rgba(15, 17, 23, 0.94);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid var(--border-subtle);
       padding: 10px 16px;
       z-index: 100;
@@ -673,7 +725,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .bottom-bar-inner {
-      max-width: 900px;
+      max-width: 960px;
       width: 100%;
       display: flex;
       justify-content: space-around;
@@ -688,7 +740,7 @@ HTML_CONTENT = """<!DOCTYPE html>
       gap: 3px;
       color: var(--text-dim);
       text-decoration: none;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 700;
       transition: color 0.15s ease;
     }
@@ -698,62 +750,101 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .bottom-link svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       stroke: currentColor;
     }
 
-    /* Modal for Japanese Address */
-    .modal-backdrop {
+    /* FULLSCREEN LIGHTBOX MODAL */
+    .lightbox-backdrop {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: 200;
+      background: rgba(5, 7, 10, 0.95);
+      z-index: 999;
       align-items: center;
       justify-content: center;
       padding: 16px;
+      cursor: zoom-out;
     }
 
-    .modal-backdrop.open {
+    .lightbox-backdrop.open {
       display: flex;
+      animation: fadeIn 0.25s ease;
     }
 
-    .modal-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      max-width: 480px;
-      width: 100%;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .lightbox-img-box {
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
 
-    .modal-close-btn {
+    .lightbox-img {
+      max-width: 95vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .lightbox-caption {
+      margin-top: 14px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 6px 18px;
+      border-radius: 20px;
+    }
+
+    .lightbox-close-btn {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      width: 32px;
-      height: 32px;
+      top: -45px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      transition: background 0.2s;
     }
 
-    @media (max-width: 600px) {
-      .hero-title { font-size: 1.3rem; }
-      .stop-image-wrapper { height: 180px; }
-      .top-nav { padding: 10px 14px; }
+    .lightbox-close-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 1.45rem; }
+      .stop-image-wrapper {
+        min-height: 320px;
+        max-height: 520px;
+      }
+      .stop-image {
+        min-height: 320px;
+        max-height: 520px;
+      }
+      .stop-body { padding: 18px; }
+      .top-nav { padding: 12px 16px; }
+      .btn-maps { padding: 8px 12px; font-size: 0.8rem; }
     }
   </style>
 </head>
@@ -789,7 +880,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     <!-- Overview Section -->
     <section id="overview" class="hero-card">
       <div class="hero-title">Osaka Master Trip (Oct 17 – 21, 2026)</div>
-      <div class="hero-subtitle">High-energy, active-rest itinerary optimized with verified Google Maps navigation, 100% train/subway routing, private airport door transfers, and authentic dining.</div>
+      <div class="hero-subtitle">High-energy, senior-optimized travel companion featuring large attraction photo previews, verified Google Maps navigation links, 100% train/subway routing, private airport door transfers, and authentic dining.</div>
 
       <div class="trip-meta-grid">
         <div class="meta-box">
@@ -819,8 +910,8 @@ HTML_CONTENT = """<!DOCTYPE html>
       </div>
       <div class="kanji-text">エスリードホテル難波サウスⅠ</div>
       <div class="kanji-address">〒556-0003 大阪府大阪市浪速区恵美須西3-11-25</div>
-      <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 6px;">
-        3 Chome-11-25 Ebisunishi, Naniwa Ward, Osaka (400m from Shin-Imamiya / Dobutsuen-mae)
+      <div style="font-size: 0.85rem; color: var(--text-dim); margin-top: 8px;">
+        3 Chome-11-25 Ebisunishi, Naniwa Ward, Osaka (400m from Shin-Imamiya / Dobutsuen-mae Station)
       </div>
     </div>
 
@@ -891,13 +982,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 2 -->
+        <!-- Stop 2: Shinsekai -->
         <article class="stop-card" data-stop="d1-s2">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/shinsekai.jpg', 'Shinsekai and Tsutenkaku Tower')">
             <img class="stop-image" src="images/shinsekai.jpg" alt="Shinsekai and Tsutenkaku Tower" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">10:45 AM – 12:45 PM</span>
             <span class="image-tag-badge">Iconic Osaka</span>
           </div>
+          <div class="photo-caption">📸 Iconic Tsutenkaku Tower rising above the vibrant retro shopfronts, pufferfish lantern, and Kushikatsu restaurants.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Retro Shinsekai, Tsutenkaku Tower & Kushikatsu Lunch</h3>
@@ -906,7 +999,7 @@ HTML_CONTENT = """<!DOCTYPE html>
             <div class="stop-desc">
               <ul>
                 <li>Walk 3 mins across the street into nostalgic <strong>Shinsekai</strong>.</li>
-                <li>Take the elevator up <strong>Tsutenkaku Tower</strong> for your first 360° panoramic view of Osaka and rub the feet of the Billiken statue.</li>
+                <li>Take the elevator up <strong>Tsutenkaku Tower</strong> for your first 360° panoramic view of Osaka and rub the feet of the Billiken statue for good luck.</li>
                 <li>Pop into <strong>Smartball New Star</strong> (vintage 1950s mechanical pinball arcade).</li>
                 <li><strong>Lunch:</strong> Golden skewers at <em>Kushikatsu Daruma</em> (Shinsekai Sohonten) or piping-hot udon noodle soup.</li>
               </ul>
@@ -920,13 +1013,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 3 -->
+        <!-- Stop 3: Den Den Town -->
         <article class="stop-card" data-stop="d1-s3">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/den_den_town.jpg', 'Den Den Town Nipponbashi')">
             <img class="stop-image" src="images/den_den_town.jpg" alt="Den Den Town Nipponbashi" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">01:00 PM – 02:45 PM</span>
             <span class="image-tag-badge">Anime & Tech</span>
           </div>
+          <div class="photo-caption">📸 Sakaisuji Avenue in Nipponbashi — multi-story electronics superstores, retro game centers, and anime hobby shops.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Den Den Town (First Pass) & Pop-Culture Stroll</h3>
@@ -944,7 +1039,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 4 -->
+        <!-- Stop 4: Shinsaibashi -->
         <article class="stop-card" data-stop="d1-s4">
           <div class="stop-body">
             <div class="stop-header-row">
@@ -972,13 +1067,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 5 -->
+        <!-- Stop 5: Dotonbori -->
         <article class="stop-card" data-stop="d1-s5">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/dotonbori.jpg', 'Dotonbori Canal and Neon Signs')">
             <img class="stop-image" src="images/dotonbori.jpg" alt="Dotonbori Canal and Neon Signs" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">06:30 PM – 08:15 PM</span>
             <span class="image-tag-badge">River Cruise</span>
           </div>
+          <div class="photo-caption">📸 Tombori River illuminated at dusk with the giant Glico running man sign and dazzling neon reflections.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Dotonbori Street Food & Tombori River Cruise</h3>
@@ -999,13 +1096,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 6 -->
+        <!-- Stop 6: Hozenji Yokocho -->
         <article class="stop-card" data-stop="d1-s6">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/hozenji_yokocho.jpg', 'Hozenji Yokocho Alley')">
             <img class="stop-image" src="images/hozenji_yokocho.jpg" alt="Hozenji Yokocho" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">08:15 PM – 09:30 PM</span>
             <span class="image-tag-badge">Hidden Gem</span>
           </div>
+          <div class="photo-caption">📸 Atmospheric lantern-lit stone alley in Hozenji Yokocho with cozy izakayas and the mossy Mizukake Fudo statue.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Hozenji Yokocho Alley & Don Quijote Ferris Wheel</h3>
@@ -1038,13 +1137,15 @@ HTML_CONTENT = """<!DOCTYPE html>
 
       <div class="timeline">
 
-        <!-- Stop 1 -->
+        <!-- Stop 1: Osaka Castle -->
         <article class="stop-card" data-stop="d2-s1">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/osaka_castle.jpg', 'Osaka Castle Main Keep')">
             <img class="stop-image" src="images/osaka_castle.jpg" alt="Osaka Castle Keep" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">09:00 AM – 11:30 AM</span>
             <span class="image-tag-badge">UNESCO Icon</span>
           </div>
+          <div class="photo-caption">📸 The imposing five-story Osaka Castle keep rising above ancient stone ramparts and autumn park grounds.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Osaka Castle Keep, Golden Moat Boat & Miraiza</h3>
@@ -1072,13 +1173,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 2 -->
+        <!-- Stop 2: Kuromon Market -->
         <article class="stop-card" data-stop="d2-s2">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/kuromon.jpg', 'Kuromon Ichiba Market')">
             <img class="stop-image" src="images/kuromon.jpg" alt="Kuromon Ichiba Market" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">12:00 PM – 01:30 PM</span>
             <span class="image-tag-badge">Osaka's Kitchen</span>
           </div>
+          <div class="photo-caption">📸 Kuromon Ichiba Market arcade — famous indoor food market overflowing with king crab, wagyu beef, and fresh seafood stalls.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Kuromon Ichiba Market Seafood Banquet</h3>
@@ -1102,13 +1205,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 3 -->
+        <!-- Stop 3: Namba Yasaka -->
         <article class="stop-card" data-stop="d2-s3">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/namba_yasaka.jpg', 'Namba Yasaka Giant Lion Head Shrine')">
             <img class="stop-image" src="images/namba_yasaka.jpg" alt="Namba Yasaka Shrine" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">01:45 PM – 02:45 PM</span>
             <span class="image-tag-badge">Giant Lion Head</span>
           </div>
+          <div class="photo-caption">📸 The colossal 12-meter high lion head stage at Namba Yasaka Shrine, swallowing misfortune and bringing good fortune.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Namba Yasaka Shrine (Colossal Lion Head Stage)</h3>
@@ -1126,7 +1231,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 4 -->
+        <!-- Stop 4: Shopping & Den Den Town -->
         <article class="stop-card" data-stop="d2-s4">
           <div class="stop-body">
             <div class="stop-header-row">
@@ -1151,13 +1256,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 5 -->
+        <!-- Stop 5: Harukas 300 -->
         <article class="stop-card" data-stop="d2-s5">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/harukas_300.jpg', 'Abeno Harukas 300 Sunset')">
             <img class="stop-image" src="images/harukas_300.jpg" alt="Abeno Harukas 300" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">06:00 PM – 08:30 PM</span>
             <span class="image-tag-badge">60th Floor Sunset</span>
           </div>
+          <div class="photo-caption">📸 Breathtaking panoramic sunset overlooking Osaka city and the bay from the 60th-floor glass deck of Harukas 300.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Abeno Harukas 300 Sunset & Gourmet Dinner</h3>
@@ -1194,24 +1301,42 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="day-theme">UNESCO World Heritage wonders: Fushimi Inari Torii gates, Golden Pavilion, Arashiyama, bowing Nara deer, and Kobe Wagyu Shabu-Shabu lunch!</div>
       </div>
 
-      <!-- Tour Confirmation Box -->
-      <div class="highlight-tip" style="background: rgba(139, 92, 246, 0.12); border-left-color: var(--accent-purple);">
-        <strong>📋 Confirmed Tour Booking Details:</strong><br>
-        • <strong>Booking Ref:</strong> <code>26KK212084684</code> (Maria Lana, Erroba x 3)<br>
-        • <strong>Pickup Location:</strong> <strong>VIP Villa Namba</strong> (1-2-1 Nanbanaka, Naniwa-ku)<br>
-        • <strong>Meeting Time:</strong> <strong>07:50 AM Sharp</strong> (Departure 08:00 AM) | Look for <strong>TABIARUKO</strong> flag.<br>
-        • <strong>Train to Pickup:</strong> Leave hotel at <strong>07:25 AM</strong>. Shin-Imamiya → JR Yamatoji Line 1 stop (3 mins) to <strong>JR Namba Station</strong> (South Exit) → 3-min flat walk (250m).
+      <!-- Tour Confirmation Box with Meeting Point Photo -->
+      <div class="stop-card" style="margin-bottom: 24px; border-color: rgba(139, 92, 246, 0.4);">
+        <div class="stop-image-wrapper" onclick="openLightbox('images/vip_villa_namba_1.jpg', 'VIP Villa Namba Tour Pickup Lounge')">
+          <img class="stop-image" src="images/vip_villa_namba_1.jpg" alt="VIP Villa Namba Tour Meeting Point" loading="lazy">
+          <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+          <span class="image-tag-time">07:50 AM Sharp</span>
+          <span class="image-tag-badge" style="background: var(--accent-purple);">Pickup Lounge</span>
+        </div>
+        <div class="photo-caption">📸 Inside the VIP Villa Namba meeting lounge & powder room (1-2-1 Nanbanaka, Naniwa-ku). Look for TABIARUKO flag.</div>
+        <div class="stop-body">
+          <h3 class="stop-title" style="margin-bottom: 8px;">📋 Confirmed Tour Booking Details</h3>
+          <div class="stop-desc">
+            <ul>
+              <li><strong>Booking Reference:</strong> <code>26KK212084684</code> (Lead: Maria Lana, Erroba x 3)</li>
+              <li><strong>Meeting Time:</strong> <strong>07:50 AM (JST)</strong> *(Arrive 10 mins early)* | Departure: <strong>08:00 AM Sharp</strong></li>
+              <li><strong>Meeting Point:</strong> <strong>VIP Villa Namba</strong> (1-2-1 Nanbanaka, Naniwa-ku). Look for staff holding <strong>TABIARUKO</strong> flag.</li>
+              <li><strong>Directions from Hotel:</strong> Leave hotel at <strong>07:25 AM</strong>. Shin-Imamiya Station → JR Yamatoji Line 1 stop (3 mins) to <strong>JR Namba Station</strong> (South Exit) → 3-min flat walk (250m) straight to lounge.</li>
+            </ul>
+          </div>
+          <div class="stop-footer">
+            <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=VIP+Villa+Namba+Osaka" target="_blank" rel="noopener">Pickup Location Map</a>
+          </div>
+        </div>
       </div>
 
       <div class="timeline">
 
-        <!-- Stop 1 -->
+        <!-- Stop 1: Fushimi Inari -->
         <article class="stop-card" data-stop="d3-s1">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/fushimi_inari.jpg', 'Fushimi Inari Taisha Senbon Torii Gates')">
             <img class="stop-image" src="images/fushimi_inari.jpg" alt="Fushimi Inari Taisha" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">Morning Stop</span>
             <span class="image-tag-badge">Kyoto Torii</span>
           </div>
+          <div class="photo-caption">📸 The mesmerizing tunnel of thousands of bright vermillion Senbon Torii gates at Fushimi Inari Taisha.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Fushimi Inari Taisha (Thousands of Torii Gates)</h3>
@@ -1229,13 +1354,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 2 -->
+        <!-- Stop 2: Kinkaku-ji -->
         <article class="stop-card" data-stop="d3-s2">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/kinkakuji.jpg', 'Kinkaku-ji Golden Pavilion')">
             <img class="stop-image" src="images/kinkakuji.jpg" alt="Kinkaku-ji Golden Pavilion" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">Midday Stop</span>
             <span class="image-tag-badge">Golden Zen</span>
           </div>
+          <div class="photo-caption">📸 Kinkaku-ji (Golden Pavilion) covered in pure gold leaf, mirrored gracefully in the tranquil surrounding pond.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Kinkaku-ji (Golden Pavilion) & Included Wagyu Lunch</h3>
@@ -1253,13 +1380,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 3 -->
+        <!-- Stop 3: Nara Park -->
         <article class="stop-card" data-stop="d3-s3">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/nara_deer.jpg', 'Nara Park Bowing Deer')">
             <img class="stop-image" src="images/nara_deer.jpg" alt="Nara Park Bowing Deer" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">Afternoon Stop</span>
             <span class="image-tag-badge">Nara Deer & Giant Buddha</span>
           </div>
+          <div class="photo-caption">📸 Polite bowing sika deer wandering freely under ancient trees near the Great Bronze Buddha of Todai-ji.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Nara Park & Todai-ji Great Bronze Buddha</h3>
@@ -1277,7 +1406,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 4 -->
+        <!-- Stop 4: Evening -->
         <article class="stop-card" data-stop="d3-s4">
           <div class="stop-body">
             <div class="stop-header-row">
@@ -1313,13 +1442,15 @@ HTML_CONTENT = """<!DOCTYPE html>
 
       <div class="timeline">
 
-        <!-- Stop 1 -->
+        <!-- Stop 1: Super Nintendo World -->
         <article class="stop-card" data-stop="d4-s1">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/nintendo_world.jpg', 'Super Nintendo World USJ')">
             <img class="stop-image" src="images/nintendo_world.jpg" alt="Super Nintendo World USJ" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">07:15 AM – 01:00 PM</span>
             <span class="image-tag-badge">Nintendo Rope-Drop</span>
           </div>
+          <div class="photo-caption">📸 Super Nintendo World at USJ — vibrant Mario Kart tracks, spinning gold coins, and Princess Peach’s Castle.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Super Nintendo World (No Express Pass Strategy)</h3>
@@ -1332,7 +1463,7 @@ HTML_CONTENT = """<!DOCTYPE html>
               </div>
             </div>
             <div class="stop-desc">
-              <ol style="margin-left: 20px; line-height: 1.6;">
+              <ol style="margin-left: 22px; line-height: 1.65;">
                 <li><strong>Turnstiles open early (~07:30–07:45 AM):</strong> Enter immediately and walk straight into Super Nintendo World during <strong>Free Open Entry</strong> before timed tickets activate.</li>
                 <li><strong>Instant App Backup:</strong> As soon as your tickets scan at the turnstile, open the USJ app and book an <strong>Area Timed Entry eTicket</strong> for the whole party.</li>
                 <li>Ride <em>Mario Kart: Koopa's Challenge</em>, collect digital coins with Power-Up Bands, and grab lunch at <em>Kinopio's Cafe</em>.</li>
@@ -1347,7 +1478,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 2 -->
+        <!-- Stop 2: Harry Potter & Shows -->
         <article class="stop-card" data-stop="d4-s2">
           <div class="stop-body">
             <div class="stop-header-row">
@@ -1387,13 +1518,15 @@ HTML_CONTENT = """<!DOCTYPE html>
 
       <div class="timeline">
 
-        <!-- Stop 1 -->
+        <!-- Stop 1: Kaiyukan -->
         <article class="stop-card" data-stop="d5-s1">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/kaiyukan.jpg', 'Osaka Aquarium Kaiyukan Pacific Tank')">
             <img class="stop-image" src="images/kaiyukan.jpg" alt="Osaka Aquarium Kaiyukan" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">10:45 AM – 01:45 PM</span>
             <span class="image-tag-badge">Whale Sharks & Cruise</span>
           </div>
+          <div class="photo-caption">📸 Osaka Aquarium Kaiyukan — colossal multi-story Pacific Ocean tank home to majestic whale sharks and manta rays.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Osaka Aquarium Kaiyukan & Santa Maria Bay Cruise</h3>
@@ -1421,13 +1554,15 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 2 -->
+        <!-- Stop 2: Namba Parks -->
         <article class="stop-card" data-stop="d5-s2">
-          <div class="stop-image-wrapper">
+          <div class="stop-image-wrapper" onclick="openLightbox('images/namba_parks.jpg', 'Namba Parks Canyon Terraces')">
             <img class="stop-image" src="images/namba_parks.jpg" alt="Namba Parks Terraces" loading="lazy">
+            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
             <span class="image-tag-time">02:30 PM – 05:30 PM</span>
             <span class="image-tag-badge">Rooftop Terraces</span>
           </div>
+          <div class="photo-caption">📸 Cascading green canyon terraces and curved pedestrian skywalks of Namba Parks.</div>
           <div class="stop-body">
             <div class="stop-header-row">
               <h3 class="stop-title">Namba Parks Terraces & Takashimaya Depachika Souvenirs</h3>
@@ -1448,7 +1583,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 3 -->
+        <!-- Stop 3: MEGA Donki -->
         <article class="stop-card" data-stop="d5-s3">
           <div class="stop-body">
             <div class="stop-header-row">
@@ -1470,7 +1605,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 4 -->
+        <!-- Stop 4: Departure -->
         <article class="stop-card" data-stop="d5-s4">
           <div class="stop-body">
             <div class="stop-header-row">
@@ -1562,6 +1697,15 @@ HTML_CONTENT = """<!DOCTYPE html>
     </div>
   </div>
 
+  <!-- FULLSCREEN LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="lightbox-backdrop" onclick="closeLightbox()">
+    <div class="lightbox-img-box" onclick="event.stopPropagation()">
+      <button class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Close">✕</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged Attraction Photo">
+      <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+  </div>
+
   <script>
     // Theme Toggle
     const themeBtn = document.getElementById('themeBtn');
@@ -1599,6 +1743,29 @@ HTML_CONTENT = """<!DOCTYPE html>
       }
     });
 
+    // Lightbox functions
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+
+    function openLightbox(src, caption) {
+      lightboxImg.src = src;
+      lightboxCaption.textContent = caption;
+      lightboxModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('open')) {
+        closeLightbox();
+      }
+    });
+
     // Highlight active day pill on scroll
     const sections = document.querySelectorAll('section');
     const navPills = document.querySelectorAll('.day-pill');
@@ -1623,7 +1790,8 @@ HTML_CONTENT = """<!DOCTYPE html>
 </html>
 """
 
+import os
 with open(r'c:\Users\Desktop\Documents\antigravity\amazing-tesla\index.html', 'w', encoding='utf-8') as f:
     f.write(HTML_CONTENT)
 
-print("index.html created successfully.")
+print("Expanded index.html written successfully.")
