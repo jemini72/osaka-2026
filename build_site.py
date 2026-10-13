@@ -1,0 +1,1629 @@
+# -*- coding: utf-8 -*-
+"""
+HTML Builder for Osaka Master Travel Web Guide (Oct 17 - 21, 2026)
+Generates a responsive, mobile-first, luxury travel PWA/web companion.
+"""
+
+import os
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Osaka Master Itinerary (Oct 17 – 21, 2026)</title>
+  <meta name="description" content="Action-packed, senior-optimized travel guide for Osaka, Kyoto, Nara, and USJ with live maps, transit guides, and attraction photos.">
+  <meta name="theme-color" content="#1a1c23">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0f1117;
+      --bg-surface: #181b24;
+      --bg-card: #202431;
+      --bg-card-hover: #262b3a;
+      --text-main: #f1f3f9;
+      --text-muted: #9aa1b5;
+      --text-dim: #6c7387;
+      --accent-red: #ff334b;
+      --accent-red-glow: rgba(255, 51, 75, 0.25);
+      --accent-gold: #ffbe3b;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-purple: #8b5cf6;
+      --border-subtle: #2d3244;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-soft: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-jp: 'Noto Sans JP', sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f6f7fb;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f9fafc;
+      --text-main: #141724;
+      --text-muted: #5e657c;
+      --text-dim: #8b92a8;
+      --border-subtle: #e2e5ee;
+      --shadow-soft: 0 10px 25px -8px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.55;
+      padding-bottom: 90px;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Fixed Top Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 17, 23, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background-color 0.25s ease;
+    }
+
+    [data-theme="light"] header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .top-nav {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-badge h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo-badge .flag {
+      font-size: 1.25rem;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .theme-toggle-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Horizontal Quick Day Bar */
+    .day-selector-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      display: flex;
+      gap: 8px;
+    }
+
+    .day-selector-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-pill {
+      flex: 0 0 auto;
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .day-pill.active, .day-pill:hover {
+      color: #fff;
+      background: var(--accent-red);
+      border-color: var(--accent-red);
+      box-shadow: 0 4px 14px var(--accent-red-glow);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 16px 30px;
+    }
+
+    /* Hero Banner */
+    .hero-card {
+      background: linear-gradient(145deg, #1f2434 0%, #151822 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    [data-theme="light"] .hero-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f0f3fa 100%);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, var(--accent-red-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+    }
+
+    .trip-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .meta-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+    }
+
+    .meta-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+
+    .meta-value {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 3px;
+    }
+
+    /* Fast Action Cards (Driver Card, Tour Card) */
+    .quick-access-banner {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .action-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .action-card:hover {
+      border-color: var(--accent-red);
+    }
+
+    .action-card-icon {
+      font-size: 1.8rem;
+      flex: 0 0 auto;
+    }
+
+    .action-card-content {
+      flex: 1 1 auto;
+    }
+
+    .action-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .action-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 4px;
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .btn-maps {
+      flex: 0 0 auto;
+      background: #4285F4;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    .btn-maps:hover {
+      opacity: 0.9;
+    }
+
+    /* Hotel Japanese Card */
+    .hotel-kanji-card {
+      background: linear-gradient(135deg, #1b2030, #141824);
+      border: 1px solid #363d56;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    [data-theme="light"] .hotel-kanji-card {
+      background: linear-gradient(135deg, #f0f4ff, #e8edfa);
+      border-color: #cbd5e1;
+    }
+
+    .hotel-kanji-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .hotel-kanji-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-gold);
+      font-weight: 800;
+    }
+
+    .kanji-text {
+      font-family: var(--font-jp);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    [data-theme="light"] .kanji-text {
+      color: #0f172a;
+    }
+
+    .kanji-address {
+      font-family: var(--font-jp);
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Day Section */
+    .day-section {
+      margin-bottom: 36px;
+      scroll-margin-top: 100px;
+    }
+
+    .day-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-subtle);
+    }
+
+    .day-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .day-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .day-date-tag {
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--accent-gold);
+      font-weight: 700;
+    }
+
+    .day-theme {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-style: italic;
+    }
+
+    /* Stop Cards Timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+    }
+
+    .stop-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .stop-card:hover {
+      border-color: rgba(255, 51, 75, 0.4);
+    }
+
+    .stop-card.done {
+      opacity: 0.6;
+    }
+
+    .stop-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .stop-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .stop-card:hover .stop-image {
+      transform: scale(1.03);
+    }
+
+    .image-tag-time {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(15, 17, 23, 0.85);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .image-tag-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--accent-red);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+    .stop-body {
+      padding: 18px;
+    }
+
+    .stop-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .stop-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .stop-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .stop-desc ul {
+      margin-left: 20px;
+      margin-top: 6px;
+    }
+
+    .stop-desc li {
+      margin-bottom: 6px;
+    }
+
+    .highlight-tip {
+      background: rgba(255, 190, 59, 0.1);
+      border-left: 3px solid var(--accent-gold);
+      padding: 10px 14px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.84rem;
+      color: var(--text-main);
+      margin: 10px 0 14px;
+    }
+
+    .transit-guide-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.84rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .transit-guide-box .t-icon {
+      font-size: 1.1rem;
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+
+    .stop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .check-btn-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check-btn-wrap input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-green);
+      cursor: pointer;
+    }
+
+    .check-btn-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    /* Metro Badges */
+    .badge-subway {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .badge-midosuji { background-color: #e60012; }
+    .badge-sakaisuji { background-color: #8b532d; }
+    .badge-chuo { background-color: #019a66; }
+    .badge-jr { background-color: #e60012; border: 1px solid rgba(255,255,255,0.4); }
+
+    /* Cheat Sheet Section */
+    .cheat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .cheat-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cheat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .cheat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .cheat-item h4 {
+      font-size: 0.92rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cheat-item p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Sticky Bottom Nav Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 17, 23, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border-subtle);
+      padding: 10px 16px;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      transition: background-color 0.25s ease;
+    }
+
+    [data-theme="light"] .bottom-bar {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .bottom-bar-inner {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bottom-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 700;
+      transition: color 0.15s ease;
+    }
+
+    .bottom-link.active, .bottom-link:hover {
+      color: var(--accent-red);
+    }
+
+    .bottom-link svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+
+    /* Modal for Japanese Address */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 1.3rem; }
+      .stop-image-wrapper { height: 180px; }
+      .top-nav { padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Header -->
+  <header>
+    <div class="top-nav">
+      <div class="logo-badge">
+        <span class="flag">🇯🇵</span>
+        <div>
+          <h1>Osaka Master Guide</h1>
+        </div>
+      </div>
+      <button class="theme-toggle-btn" id="themeBtn" aria-label="Toggle Theme">🌙</button>
+    </div>
+
+    <!-- Quick Day Filter Pills -->
+    <div class="day-selector-wrapper">
+      <a href="#overview" class="day-pill active">Overview</a>
+      <a href="#day1" class="day-pill">Day 1 (Sat 17)</a>
+      <a href="#day2" class="day-pill">Day 2 (Sun 18)</a>
+      <a href="#day3" class="day-pill">Day 3 (Mon 19)</a>
+      <a href="#day4" class="day-pill">Day 4 (Tue 20)</a>
+      <a href="#day5" class="day-pill">Day 5 (Wed 21)</a>
+      <a href="#cheatsheet" class="day-pill">Cheat Sheet</a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main>
+
+    <!-- Overview Section -->
+    <section id="overview" class="hero-card">
+      <div class="hero-title">Osaka Master Trip (Oct 17 – 21, 2026)</div>
+      <div class="hero-subtitle">High-energy, active-rest itinerary optimized with verified Google Maps navigation, 100% train/subway routing, private airport door transfers, and authentic dining.</div>
+
+      <div class="trip-meta-grid">
+        <div class="meta-box">
+          <div class="meta-label">Outbound Flight</div>
+          <div class="meta-value">GK 82 (MNL 2:50A → KIX 8:05A)</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Return Flight</div>
+          <div class="meta-value">GK 81 (KIX 10:25P → MNL ~1:50A)</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Base Hotel</div>
+          <div class="meta-value">Eslead Hotel Namba South 1</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Vacation Status</div>
+          <div class="meta-value" style="color: var(--accent-green);">100% On Leave 🎉</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Driver & Taxi Kanji Card -->
+    <div class="hotel-kanji-card">
+      <div class="hotel-kanji-header">
+        <span class="hotel-kanji-title">📍 Hotel Address Card (Show to Driver)</span>
+        <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Eslead+Hotel+Namba+South+1+Osaka" target="_blank" rel="noopener">Open Maps</a>
+      </div>
+      <div class="kanji-text">エスリードホテル難波サウスⅠ</div>
+      <div class="kanji-address">〒556-0003 大阪府大阪市浪速区恵美須西3-11-25</div>
+      <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 6px;">
+        3 Chome-11-25 Ebisunishi, Naniwa Ward, Osaka (400m from Shin-Imamiya / Dobutsuen-mae)
+      </div>
+    </div>
+
+    <!-- Quick Action Banners -->
+    <div class="quick-access-banner">
+      <div class="action-card">
+        <span class="action-card-icon">🚐</span>
+        <div class="action-card-content">
+          <div class="action-card-title">
+            Private Airport Transfers
+            <span class="action-badge">Door-to-Door</span>
+          </div>
+          <div class="action-card-desc">
+            Day 1: KIX Arrival Lobby pickup (8:05 AM) → Hotel | Day 5: Hotel Lobby pickup (7:00 PM) → KIX Curb
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <span class="action-card-icon">⛩️</span>
+        <div class="action-card-content">
+          <div class="action-card-title">
+            Kyoto & Nara Day Tour (Oct 19)
+            <span class="action-badge" style="background: var(--accent-purple);">Confirmed</span>
+          </div>
+          <div class="action-card-desc">
+            Ref: <code>26KK212084684</code> | VIP Villa Namba pickup @ <strong>07:50 AM Sharp</strong> (Flag: TABIARUKO)
+          </div>
+        </div>
+        <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=VIP+Villa+Namba+Osaka" target="_blank" rel="noopener">Pickup Map</a>
+      </div>
+    </div>
+
+    <!-- DAY 1 -->
+    <section id="day1" class="day-section">
+      <div class="day-header">
+        <div class="day-title-row">
+          <div class="day-title">Day 1: Full Throttle Arrival, Shopping & Neon</div>
+          <span class="day-date-tag">Saturday, Oct 17</span>
+        </div>
+        <div class="day-theme">Fast bag drop, retro Tsutenkaku tower climb, fluffy soufflé pancakes, Dotonbori neon river cruise, and Hozenji Yokocho alley.</div>
+      </div>
+
+      <div class="timeline">
+
+        <!-- Stop 1 -->
+        <article class="stop-card" data-stop="d1-s1">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">08:05 AM – 10:15 AM</span>
+                <h3 class="stop-title">KIX Airport Arrival & Private Transfer to Hotel</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Terminal+1" target="_blank" rel="noopener">KIX Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Land at KIX Terminal 1 on Jetstar GK 82 (08:05 AM). Clear immigration, baggage claim, and customs (~1–1.5 hrs).</li>
+                <li>Meet your private driver at KIX Arrival Lobby. Direct 45-min expressway drive straight to <strong>Eslead Hotel Namba South 1</strong> to drop luggage.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 2 -->
+        <article class="stop-card" data-stop="d1-s2">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/shinsekai.jpg" alt="Shinsekai and Tsutenkaku Tower" loading="lazy">
+            <span class="image-tag-time">10:45 AM – 12:45 PM</span>
+            <span class="image-tag-badge">Iconic Osaka</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Retro Shinsekai, Tsutenkaku Tower & Kushikatsu Lunch</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Tsutenkaku+Tower+Shinsekai+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Walk 3 mins across the street into nostalgic <strong>Shinsekai</strong>.</li>
+                <li>Take the elevator up <strong>Tsutenkaku Tower</strong> for your first 360° panoramic view of Osaka and rub the feet of the Billiken statue.</li>
+                <li>Pop into <strong>Smartball New Star</strong> (vintage 1950s mechanical pinball arcade).</li>
+                <li><strong>Lunch:</strong> Golden skewers at <em>Kushikatsu Daruma</em> (Shinsekai Sohonten) or piping-hot udon noodle soup.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 3 -->
+        <article class="stop-card" data-stop="d1-s3">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/den_den_town.jpg" alt="Den Den Town Nipponbashi" loading="lazy">
+            <span class="image-tag-time">01:00 PM – 02:45 PM</span>
+            <span class="image-tag-badge">Anime & Tech</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Den Den Town (First Pass) & Pop-Culture Stroll</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Den+Den+Town+Nipponbashi+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Stroll north along Sakaisuji Avenue into <strong>Den Den Town</strong>. Browse multi-floor gachapon halls, retro games at <em>Super Potato</em>, and anime specialty stores. Return to hotel at 3:00 PM for check-in.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 4 -->
+        <article class="stop-card" data-stop="d1-s4">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">04:15 PM – 06:15 PM</span>
+                <h3 class="stop-title">Shinsaibashi-Suji Arcade & Fluffy Soufflé Pancakes</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=A+Happy+Pancake+Shinsaibashi+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="transit-guide-box">
+              <span class="t-icon">🚇</span>
+              <div>
+                <strong>Transit:</strong> Dobutsuen-mae Station → <span class="badge-subway badge-midosuji">Midosuji Line</span> 3 stops (6 mins) to <strong>Shinsaibashi Station</strong>.
+              </div>
+            </div>
+            <div class="stop-desc">
+              Walk the famous covered fashion shopping arcade. Sit down at <strong>A Happy Pancake</strong> (or <em>Miki Fruits Cafe</em>) for world-famous fluffy, jiggly Japanese soufflé pancakes and iced matcha.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 5 -->
+        <article class="stop-card" data-stop="d1-s5">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/dotonbori.jpg" alt="Dotonbori Canal and Neon Signs" loading="lazy">
+            <span class="image-tag-time">06:30 PM – 08:15 PM</span>
+            <span class="image-tag-badge">River Cruise</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Dotonbori Street Food & Tombori River Cruise</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Tombori+River+Cruise+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Board the 20-minute <strong>Tombori River Cruise</strong> at dusk right under the illuminated giant Glico Running Man and neon billboards.</li>
+                <li><strong>Street Food Feast:</strong> Piping hot takoyaki at <em>Wanaka</em>, okonomiyaki at <em>Chibo</em>, and gyoza right along the canal.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 6 -->
+        <article class="stop-card" data-stop="d1-s6">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/hozenji_yokocho.jpg" alt="Hozenji Yokocho" loading="lazy">
+            <span class="image-tag-time">08:15 PM – 09:30 PM</span>
+            <span class="image-tag-badge">Hidden Gem</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Hozenji Yokocho Alley & Don Quijote Ferris Wheel</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Hozenji+Yokocho+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Slip one block south of Dotonbori into stone-paved <strong>Hozenji Yokocho</strong>. Splash water over the moss-covered Mizukake Fudo statue and admire the paper lanterns. Ride the yellow <strong>Ebisu Tower Ferris Wheel</strong> before taking Midosuji Line 2 stops back to Dobutsuen-mae.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- DAY 2 -->
+    <section id="day2" class="day-section">
+      <div class="day-header">
+        <div class="day-title-row">
+          <div class="day-title">Day 2: Castle, Market Feast & Sunset Skyscraper</div>
+          <span class="day-date-tag">Sunday, Oct 18</span>
+        </div>
+        <div class="day-theme">Osaka Castle road train & moat boat, Kuromon seafood banquet, Lion Head shrine, department store shopping, and Harukas 300 golden hour.</div>
+      </div>
+
+      <div class="timeline">
+
+        <!-- Stop 1 -->
+        <article class="stop-card" data-stop="d2-s1">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/osaka_castle.jpg" alt="Osaka Castle Keep" loading="lazy">
+            <span class="image-tag-time">09:00 AM – 11:30 AM</span>
+            <span class="image-tag-badge">UNESCO Icon</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Osaka Castle Keep, Golden Moat Boat & Miraiza</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Osaka+Castle+Main+Keep" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="transit-guide-box">
+              <span class="t-icon">🚆</span>
+              <div>
+                <strong>Zero-Hassle Route:</strong> Walk 5 mins to Shin-Imamiya → <span class="badge-subway badge-jr">JR Osaka Loop Line</span> 7 stops (12 mins, direct) to <strong>Morinomiya Station</strong> (North Exit).
+              </div>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Board the <strong>Electric Road Train</strong> straight through the park to the castle courtyard (zero hill walking for Mom!).</li>
+                <li>Take the 20-minute <strong>Golden Gozabune Moat Boat</strong> around the massive stone ramparts.</li>
+                <li>Senior elevator to top observation deck. Coffee & matcha break inside retro <em>Miraiza Osaka-jo</em>.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 2 -->
+        <article class="stop-card" data-stop="d2-s2">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/kuromon.jpg" alt="Kuromon Ichiba Market" loading="lazy">
+            <span class="image-tag-time">12:00 PM – 01:30 PM</span>
+            <span class="image-tag-badge">Osaka's Kitchen</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Kuromon Ichiba Market Seafood Banquet</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Kuromon+Ichiba+Market+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="transit-guide-box">
+              <span class="t-icon">🚇</span>
+              <div>
+                <strong>Transit:</strong> Morinomiya Station → <span class="badge-subway badge-chuo">Chuo Line</span> 2 stops to Sakaisuji-Hommachi → <span class="badge-subway badge-sakaisuji">Sakaisuji Line</span> 2 stops to <strong>Nipponbashi Station</strong> (Exit 10 elevator).
+              </div>
+            </div>
+            <div class="stop-desc">
+              Feast on grilled wagyu beef skewers, giant king crab legs, butter-torched giant scallops, fresh sashimi, and sweet Japanese white strawberries at indoor air-conditioned seating.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 3 -->
+        <article class="stop-card" data-stop="d2-s3">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/namba_yasaka.jpg" alt="Namba Yasaka Shrine" loading="lazy">
+            <span class="image-tag-time">01:45 PM – 02:45 PM</span>
+            <span class="image-tag-badge">Giant Lion Head</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Namba Yasaka Shrine (Colossal Lion Head Stage)</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Namba+Yasaka+Shrine+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Walk 10 mins west through Motomachi directly to <strong>Namba Yasaka Shrine</strong>. Stand in front of the colossal <strong>12-meter lion head stage</strong> believed to swallow bad spirits and bring victory and fortune. Perfect family photo spot!
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 4 -->
+        <article class="stop-card" data-stop="d2-s4">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">03:00 PM – 05:30 PM</span>
+                <h3 class="stop-title">Mom’s Department Store Spree & Den Den Town</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Takashimaya+Osaka+Store+Namba" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li><strong>Takashimaya Namba:</strong> 8 floors of premier Japanese cosmetics, luxury goods, tax-free counters, and rooftop gardens for Mom.</li>
+                <li><strong>Den Den Town (Ota Road):</strong> Head east into anime and gaming flagship superstores (<em>Surugaya, Mandarake, Animate</em>).</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 5 -->
+        <article class="stop-card" data-stop="d2-s5">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/harukas_300.jpg" alt="Abeno Harukas 300" loading="lazy">
+            <span class="image-tag-time">06:00 PM – 08:30 PM</span>
+            <span class="image-tag-badge">60th Floor Sunset</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Abeno Harukas 300 Sunset & Gourmet Dinner</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Harukas+300+Observatory+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="transit-guide-box">
+              <span class="t-icon">🚇</span>
+              <div>
+                <strong>Transit:</strong> Subway <span class="badge-subway badge-midosuji">Midosuji Line</span> 2 stops (4 mins) to <strong>Tennoji Station</strong> → direct elevator to 60F observatory deck.
+              </div>
+            </div>
+            <div class="stop-desc">
+              Watch the breathtaking sunset from 300 meters above Osaka Bay with glass-floor vistas. Dine on the 12th–14th restaurant floors of Abeno Harukas (premium Sukiyaki, tonkatsu, or eel). Return via JR Yamatoji Line 1 stop (2 mins) to Shin-Imamiya.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- DAY 3 -->
+    <section id="day3" class="day-section">
+      <div class="day-header">
+        <div class="day-title-row">
+          <div class="day-title">Day 3: Kyoto & Nara Full-Day Adventure</div>
+          <span class="day-date-tag">Monday, Oct 19</span>
+        </div>
+        <div class="day-theme">UNESCO World Heritage wonders: Fushimi Inari Torii gates, Golden Pavilion, Arashiyama, bowing Nara deer, and Kobe Wagyu Shabu-Shabu lunch!</div>
+      </div>
+
+      <!-- Tour Confirmation Box -->
+      <div class="highlight-tip" style="background: rgba(139, 92, 246, 0.12); border-left-color: var(--accent-purple);">
+        <strong>📋 Confirmed Tour Booking Details:</strong><br>
+        • <strong>Booking Ref:</strong> <code>26KK212084684</code> (Maria Lana, Erroba x 3)<br>
+        • <strong>Pickup Location:</strong> <strong>VIP Villa Namba</strong> (1-2-1 Nanbanaka, Naniwa-ku)<br>
+        • <strong>Meeting Time:</strong> <strong>07:50 AM Sharp</strong> (Departure 08:00 AM) | Look for <strong>TABIARUKO</strong> flag.<br>
+        • <strong>Train to Pickup:</strong> Leave hotel at <strong>07:25 AM</strong>. Shin-Imamiya → JR Yamatoji Line 1 stop (3 mins) to <strong>JR Namba Station</strong> (South Exit) → 3-min flat walk (250m).
+      </div>
+
+      <div class="timeline">
+
+        <!-- Stop 1 -->
+        <article class="stop-card" data-stop="d3-s1">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/fushimi_inari.jpg" alt="Fushimi Inari Taisha" loading="lazy">
+            <span class="image-tag-time">Morning Stop</span>
+            <span class="image-tag-badge">Kyoto Torii</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Fushimi Inari Taisha (Thousands of Torii Gates)</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Fushimi+Inari+Taisha+Kyoto" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Walk the flat, paved lower path through the iconic crimson Senbon Torii tunnel. Perfect for family photos without mountain climbing!
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 2 -->
+        <article class="stop-card" data-stop="d3-s2">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/kinkakuji.jpg" alt="Kinkaku-ji Golden Pavilion" loading="lazy">
+            <span class="image-tag-time">Midday Stop</span>
+            <span class="image-tag-badge">Golden Zen</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Kinkaku-ji (Golden Pavilion) & Included Wagyu Lunch</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Kinkaku-ji+Kyoto" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Gaze upon the glittering gold-leaf Zen temple reflected in the mirror pond along a smooth, flat paved garden path. Savor the included <strong>Wagyu "Kobe Beef" Shabu-Shabu hot pot lunch</strong>.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 3 -->
+        <article class="stop-card" data-stop="d3-s3">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/nara_deer.jpg" alt="Nara Park Bowing Deer" loading="lazy">
+            <span class="image-tag-time">Afternoon Stop</span>
+            <span class="image-tag-badge">Nara Deer & Giant Buddha</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Nara Park & Todai-ji Great Bronze Buddha</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Nara+Park+Todaiji" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Feed the polite bowing sika deer with special deer crackers (Shika-senbei). Stand inside Todai-ji Temple beneath the world's largest bronze Buddha statue.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 4 -->
+        <article class="stop-card" data-stop="d3-s4">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">07:00 PM – 09:30 PM</span>
+                <h3 class="stop-title">Return to Namba, Dinner & Early Rest</h3>
+              </div>
+            </div>
+            <div class="stop-desc">
+              The tour coach drops off at Namba. Enjoy a relaxed dinner near Namba before taking the subway 2 stops (4 mins) back to the hotel. Get a full, restful sleep to be completely energized for Universal Studios Japan!
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- DAY 4 -->
+    <section id="day4" class="day-section">
+      <div class="day-header">
+        <div class="day-title-row">
+          <div class="day-title">Day 4: Universal Studios Japan (USJ)</div>
+          <span class="day-date-tag">Tuesday, Oct 20</span>
+        </div>
+        <div class="day-theme">Super Nintendo World rope-drop mission without Express Pass, Harry Potter Hogsmeade, seated shows, and CityWalk dining.</div>
+      </div>
+
+      <div class="timeline">
+
+        <!-- Stop 1 -->
+        <article class="stop-card" data-stop="d4-s1">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/nintendo_world.jpg" alt="Super Nintendo World USJ" loading="lazy">
+            <span class="image-tag-time">07:15 AM – 01:00 PM</span>
+            <span class="image-tag-badge">Nintendo Rope-Drop</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Super Nintendo World (No Express Pass Strategy)</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Universal+Studios+Japan+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="transit-guide-box">
+              <span class="t-icon">🚆</span>
+              <div>
+                <strong>Morning Route (Leave hotel 06:45 AM):</strong> Shin-Imamiya → <span class="badge-subway badge-jr">JR Loop Line</span> 5 stops to Nishikujo → cross platform to JR Yumesaki Line 2 stops to <strong>Universal-City Station</strong> (~20 mins). At gates by 07:15–07:30 AM!
+              </div>
+            </div>
+            <div class="stop-desc">
+              <ol style="margin-left: 20px; line-height: 1.6;">
+                <li><strong>Turnstiles open early (~07:30–07:45 AM):</strong> Enter immediately and walk straight into Super Nintendo World during <strong>Free Open Entry</strong> before timed tickets activate.</li>
+                <li><strong>Instant App Backup:</strong> As soon as your tickets scan at the turnstile, open the USJ app and book an <strong>Area Timed Entry eTicket</strong> for the whole party.</li>
+                <li>Ride <em>Mario Kart: Koopa's Challenge</em>, collect digital coins with Power-Up Bands, and grab lunch at <em>Kinopio's Cafe</em>.</li>
+              </ol>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 2 -->
+        <article class="stop-card" data-stop="d4-s2">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">01:30 PM – 07:30 PM</span>
+                <h3 class="stop-title">Harry Potter, WaterWorld & CityWalk Dining</h3>
+              </div>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li><strong>Wizarding World of Harry Potter:</strong> Stroll Hogsmeade village, sip warm Butterbeer, and watch the Ollivanders wand show.</li>
+                <li><strong>Seated Shows (Active Rest):</strong> Catch the explosive 20-minute <em>WaterWorld Stunt Show</em> and the air-conditioned <em>Sing on Tour</em> Broadway musical.</li>
+                <li><strong>CityWalk Dinner:</strong> Feast at Hard Rock Cafe or Takoyaki Park before taking the 20-min JR train back to Shin-Imamiya.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- DAY 5 -->
+    <section id="day5" class="day-section">
+      <div class="day-header">
+        <div class="day-title-row">
+          <div class="day-title">Day 5: Bay Cruise, Giant Aquarium & Departure</div>
+          <span class="day-date-tag">Wednesday, Oct 21</span>
+        </div>
+        <div class="day-theme">Zero-stairs Kaiyukan Aquarium spiral, Santa Maria harbor cruise, Depachika gourmet souvenir haul, MEGA Donki, and private airport send-off.</div>
+      </div>
+
+      <div class="timeline">
+
+        <!-- Stop 1 -->
+        <article class="stop-card" data-stop="d5-s1">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/kaiyukan.jpg" alt="Osaka Aquarium Kaiyukan" loading="lazy">
+            <span class="image-tag-time">10:45 AM – 01:45 PM</span>
+            <span class="image-tag-badge">Whale Sharks & Cruise</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Osaka Aquarium Kaiyukan & Santa Maria Bay Cruise</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Osaka+Aquarium+Kaiyukan" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="transit-guide-box">
+              <span class="t-icon">🚇</span>
+              <div>
+                <strong>Transit (18 mins):</strong> Dobutsuen-mae → <span class="badge-subway badge-sakaisuji">Sakaisuji Line</span> 3 stops to Sakaisuji-Hommachi → <span class="badge-subway badge-chuo">Chuo Line</span> 5 stops to <strong>Osakako Station</strong> (Exit 1/2).
+              </div>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li><strong>Zero-Stairs Experience:</strong> Elevator to 8th floor → gently spiral down the wide, sloping ramp watching colossal <strong>whale sharks</strong>, manta rays, and penguins.</li>
+                <li><strong>Santa Maria Harbor Cruise (45 mins):</strong> Relax on a seated ocean cruise catching refreshing breezes across Osaka Bay.</li>
+                <li><strong>Tempozan Giant Ferris Wheel:</strong> Air-conditioned, barrier-free panoramic view of Osaka Port.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 2 -->
+        <article class="stop-card" data-stop="d5-s2">
+          <div class="stop-image-wrapper">
+            <img class="stop-image" src="images/namba_parks.jpg" alt="Namba Parks Terraces" loading="lazy">
+            <span class="image-tag-time">02:30 PM – 05:30 PM</span>
+            <span class="image-tag-badge">Rooftop Terraces</span>
+          </div>
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <h3 class="stop-title">Namba Parks Terraces & Takashimaya Depachika Souvenirs</h3>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Namba+Parks+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Subway back to <strong>Namba Station</strong>. Stroll the stunning terraced rooftop canyon gardens of <strong>Namba Parks</strong>.</li>
+                <li><strong>Takashimaya Depachika (Basement Gourmet Hall):</strong> Buy luxury souvenir gifts (Matcha langue de chat cookies, Baumkuchen cakes, Japanese teas, wagashi). Afternoon tea & fresh fruit cake at <em>Harbs</em>.</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 3 -->
+        <article class="stop-card" data-stop="d5-s3">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">05:45 PM – 06:45 PM</span>
+                <h3 class="stop-title">MEGA Don Quijote Shinsekai (Last Haul) & Bag Pickup</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=MEGA+Don+Quijote+Shinsekai+Osaka" target="_blank" rel="noopener">Map</a>
+            </div>
+            <div class="stop-desc">
+              Take Midosuji Line 2 stops back to Dobutsuen-mae. Quick final tax-free shopping sweep at <strong>MEGA Don Quijote Shinsekai</strong> right next to hotel for Japanese snacks, beauty products, and KitKats. Return to Eslead Hotel lobby by 06:50 PM.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 4 -->
+        <article class="stop-card" data-stop="d5-s4">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">07:00 PM – 10:25 PM</span>
+                <h3 class="stop-title">Private Transfer to KIX & Departure Flight GK 81</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Terminal+1" target="_blank" rel="noopener">KIX Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li><strong>07:00 PM Sharp:</strong> Private airport driver meets you directly in the lobby of <strong>Eslead Hotel Namba South 1</strong>.</li>
+                <li>Direct expressway drive (~45 mins) straight to KIX Terminal 1 Departure Curb by <strong>07:45–08:00 PM</strong>.</li>
+                <li>Check in bags, clear security, and enjoy duty-free shopping before boarding Jetstar <strong>GK 81</strong> (departing 10:25 PM JST).</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Transit Cheat Sheet -->
+    <section id="cheatsheet" class="cheat-card">
+      <h3>🚇 Senior-Friendly Transit & Nav Cheat Sheet</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <h4>💳 Tap & Go IC Cards</h4>
+          <p>Add digital <strong>ICOCA</strong> or <strong>Suica</strong> to Apple Wallet (or buy physical ICOCA card). Tap at all ticket gates for subways, JR trains, and buses.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>🛗 Look for "EV" Signs</h4>
+          <p>All Osaka train stations have barrier-free elevators from platform to concourse and street. Follow the yellow <strong>"EV"</strong> icons to skip stairs completely.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>🔴 Midosuji Line (M)</h4>
+          <p>The red spine of Osaka. Connects Dobutsuen-mae, Daikokucho, Namba, Shinsaibashi, Umeda, and Tennoji (Harukas 300).</p>
+        </div>
+        <div class="cheat-item">
+          <h4>🟤 Sakaisuji Line (K)</h4>
+          <p>Brown line. Connects Dobutsuen-mae, Ebisucho (Den Den Town South), and Nipponbashi (Kuromon Market).</p>
+        </div>
+        <div class="cheat-item">
+          <h4>🟢 Chuo Line (C)</h4>
+          <p>Green line. Connects Sakaisuji-Hommachi directly west to Osakako (Kaiyukan Aquarium & Tempozan Harbor).</p>
+        </div>
+        <div class="cheat-item">
+          <h4>⭕ JR Osaka Loop Line (O)</h4>
+          <p>Circular train line. From Shin-Imamiya connects directly to Morinomiya (Osaka Castle) and Nishikujo (transfer for USJ).</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <div class="bottom-bar">
+    <div class="bottom-bar-inner">
+      <a href="#overview" class="bottom-link active">
+        <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>Top</span>
+      </a>
+      <a href="#day1" class="bottom-link">
+        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+        <span>Day 1</span>
+      </a>
+      <a href="#day2" class="bottom-link">
+        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+        <span>Day 2</span>
+      </a>
+      <a href="#day3" class="bottom-link">
+        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+        <span>Day 3</span>
+      </a>
+      <a href="#day4" class="bottom-link">
+        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+        <span>Day 4</span>
+      </a>
+      <a href="#day5" class="bottom-link">
+        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+        <span>Day 5</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeBtn = document.getElementById('themeBtn');
+    let currentTheme = localStorage.getItem('osaka_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    themeBtn.textContent = currentTheme === 'light' ? '☀️' : '🌙';
+
+    themeBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('osaka_theme', currentTheme);
+      themeBtn.textContent = currentTheme === 'light' ? '☀️' : '🌙';
+    });
+
+    // Checkbox Completion State
+    function toggleDone(checkbox) {
+      const card = checkbox.closest('.stop-card');
+      const stopId = card.getAttribute('data-stop');
+      if (checkbox.checked) {
+        card.classList.add('done');
+        localStorage.setItem('stop_' + stopId, 'true');
+      } else {
+        card.classList.remove('done');
+        localStorage.removeItem('stop_' + stopId);
+      }
+    }
+
+    // Restore completion state
+    document.querySelectorAll('.stop-card').forEach(card => {
+      const stopId = card.getAttribute('data-stop');
+      if (localStorage.getItem('stop_' + stopId) === 'true') {
+        const cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = true;
+        card.classList.add('done');
+      }
+    });
+
+    // Highlight active day pill on scroll
+    const sections = document.querySelectorAll('section');
+    const navPills = document.querySelectorAll('.day-pill');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      navPills.forEach(pill => {
+        pill.classList.remove('active');
+        if (pill.getAttribute('href') === '#' + current) {
+          pill.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
+"""
+
+with open(r'c:\Users\Desktop\Documents\antigravity\amazing-tesla\index.html', 'w', encoding='utf-8') as f:
+    f.write(HTML_CONTENT)
+
+print("index.html created successfully.")
