@@ -350,14 +350,26 @@ HTML_CONTENT = """<!DOCTYPE html>
       gap: 16px;
     }
 
+    .codes-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .codes-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .code-display-box {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 16px 20px;
+      padding: 14px 18px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .code-value-wrap {
@@ -367,34 +379,51 @@ HTML_CONTENT = """<!DOCTYPE html>
     }
 
     .code-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-dim);
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .code-digits {
       font-family: var(--font-mono);
-      font-size: 2.1rem;
+      font-size: 1.85rem;
       font-weight: 800;
       letter-spacing: 0.1em;
       color: var(--accent-green);
     }
 
+    .code-digits.password-color {
+      color: var(--accent-gold);
+    }
+
     .btn-copy {
-      background: var(--accent-green);
-      color: #fff;
-      border: none;
-      padding: 10px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      transition: transform 0.15s ease, opacity 0.2s;
+      transition: all 0.15s ease;
+    }
+
+    .btn-copy:hover {
+      background: var(--accent-green);
+      color: #fff;
+      border-color: var(--accent-green);
+    }
+
+    .btn-copy.btn-gold:hover {
+      background: var(--accent-gold);
+      color: #141724;
+      border-color: var(--accent-gold);
     }
 
     .btn-copy:active {
@@ -410,6 +439,130 @@ HTML_CONTENT = """<!DOCTYPE html>
     .qr-instructions-list li {
       margin-bottom: 8px;
       margin-left: 20px;
+    }
+
+    .info-callout-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-size: 0.90rem;
+      line-height: 1.6;
+    }
+
+    .info-callout-box.tax-box {
+      border-left-color: var(--accent-gold);
+    }
+
+    .info-callout-box.checkout-box {
+      border-left-color: var(--accent-purple);
+    }
+
+    .info-callout-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25D366;
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      margin-top: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .wa-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* VOUCHER CRITICAL ALERT BOX */
+    .voucher-alert-box {
+      background: linear-gradient(135deg, rgba(255, 190, 59, 0.14), rgba(255, 51, 75, 0.12));
+      border: 2px solid var(--accent-gold);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 26px;
+      box-shadow: 0 10px 30px var(--accent-gold-glow);
+    }
+
+    .voucher-alert-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .voucher-alert-badge {
+      background: var(--accent-red);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .voucher-alert-header h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+    }
+
+    .voucher-alert-content {
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .voucher-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .voucher-tag {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .voucher-alert-footnote {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border-subtle);
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .action-card-voucher-note {
+      font-size: 0.82rem;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-top: 4px;
     }
 
     /* Fast Action Cards */
@@ -1092,7 +1245,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     <!-- Quick Day & Feature Filter Pills -->
     <div class="day-selector-wrapper">
       <a href="#overview" class="day-pill active">Overview</a>
-      <a href="#hotel-qr" class="day-pill pill-qr">🏨 Hotel & QR</a>
+      <a href="#hotel-qr" class="day-pill pill-qr">🏨 Hotel & Vouchers</a>
       <a href="#day1" class="day-pill">Day 1 (Sat 17)</a>
       <a href="#day2" class="day-pill">Day 2 (Sun 18)</a>
       <a href="#day3" class="day-pill">Day 3 (Mon 19)</a>
@@ -1105,18 +1258,38 @@ HTML_CONTENT = """<!DOCTYPE html>
   <!-- Main Content Area -->
   <main>
 
+    <!-- CRITICAL VOUCHER INSTRUCTION BANNER -->
+    <div class="voucher-alert-box">
+      <div class="voucher-alert-header">
+        <span class="voucher-alert-badge">CRITICAL PROTOCOL</span>
+        <h3>⚠️ Present ONLY Official Vouchers to Drivers & Tour Operators</h3>
+      </div>
+      <div class="voucher-alert-content">
+        <p><strong>Drivers and tour operators will NOT honor any other document.</strong> You must present only the official booking vouchers:</p>
+        <div class="voucher-tags-row">
+          <span class="voucher-tag">🚐 <strong>Oct 17 Transfer Voucher</strong> (KIX Pick-up 11:30 AM)</span>
+          <span class="voucher-tag">🏨 <strong>Hotel Voucher</strong> (Eslead Hotel Namba South 1)</span>
+          <span class="voucher-tag">⛩️ <strong>Kyoto Tour Voucher</strong> (VIP Villa Namba Ref: 26KK212084684)</span>
+          <span class="voucher-tag">🚐 <strong>Oct 21 Transfer Voucher</strong> (Hotel Pick-up 6:30 PM)</span>
+        </div>
+        <p class="voucher-alert-footnote">
+          <em>*Refer strictly to the <strong>TRAVEL VOUCHER (MAIN)</strong> sent. This Osaka Master Itinerary serves as your personal offline reference only.</em>
+        </p>
+      </div>
+    </div>
+
     <!-- Overview Section -->
     <section id="overview" class="hero-card">
       <div class="hero-title">Osaka Master Trip (Oct 17 – 21, 2026)</div>
-      <div class="hero-subtitle">High-energy, senior-optimized travel companion featuring official Google Maps route screenshots, HOTELSMART check-in QR code, one-tap multi-stop Google Maps routes, and authentic dining.</div>
+      <div class="hero-subtitle">High-energy, senior-optimized travel companion featuring official Google Maps routes, HOTELSMART self check-in QR code, door-to-door private transfers, and authentic dining.</div>
 
       <div class="trip-meta-grid">
         <div class="meta-box">
-          <div class="meta-label">Outbound Flight</div>
+          <div class="meta-label">Outbound Flight (Jetstar)</div>
           <div class="meta-value">GK 82 (MNL 2:50A → KIX 8:05A)</div>
         </div>
         <div class="meta-box">
-          <div class="meta-label">Return Flight</div>
+          <div class="meta-label">Return Flight (Jetstar)</div>
           <div class="meta-value">GK 81 (KIX 10:25P → MNL ~1:50A)</div>
         </div>
         <div class="meta-box">
@@ -1135,7 +1308,7 @@ HTML_CONTENT = """<!DOCTYPE html>
       <div class="qr-badge-header">
         <div class="qr-title">
           <span>🏨</span>
-          <span>Hotel Check-in & Self-Service QR</span>
+          <span>Hotel Check-in & Self-Service Tablet Access</span>
         </div>
         <span class="qr-system-tag">HOTELSMART KIOSK</span>
       </div>
@@ -1149,25 +1322,57 @@ HTML_CONTENT = """<!DOCTYPE html>
 
         <!-- Check-in Info -->
         <div class="qr-details-card">
-          <div class="code-display-box">
-            <div class="code-value-wrap">
-              <span class="code-label">Tablet Check-in Code</span>
-              <span class="code-digits" id="checkinCode">073461</span>
+          <!-- Passwords & Codes Row -->
+          <div class="codes-row">
+            <div class="code-display-box">
+              <div class="code-value-wrap">
+                <span class="code-label">Entrance Password</span>
+                <span class="code-digits password-color" id="entrancePassword">5892</span>
+              </div>
+              <button class="btn-copy btn-gold" onclick="copyText('entrancePassword', this)">📋 Copy Password</button>
             </div>
-            <button class="btn-copy" onclick="copyCheckinCode()">📋 Copy Code</button>
+
+            <div class="code-display-box">
+              <div class="code-value-wrap">
+                <span class="code-label">Check-in / Check-out Code</span>
+                <span class="code-digits" id="checkinCode">073461</span>
+              </div>
+              <button class="btn-copy" onclick="copyText('checkinCode', this)">📋 Copy Code</button>
+            </div>
           </div>
 
+          <!-- Times & Contacts -->
           <ul class="qr-instructions-list">
-            <li><strong>How to Check In:</strong> When you arrive at <strong>Eslead Hotel Namba South 1</strong> lobby, scan this QR code on the self-service tablet or tap the screen and enter code <strong>073461</strong>.</li>
-            <li><strong>Instant Room PIN:</strong> Your booking information and payment will be confirmed immediately, and the tablet will display your room number and digital door PIN code.</li>
-            <li><strong>Check-in Hours:</strong> From <strong>3:00 PM</strong> (Early luggage drop available upon arrival Saturday morning).</li>
-            <li><strong>Check-out Hours:</strong> By <strong>10:00 AM / 11:00 AM</strong> Wednesday morning.</li>
+            <li><strong>Check-in Time:</strong> <strong>4:00 PM</strong> <em>(Early bag drop available upon arrival Saturday; stow in lobby lockers)</em>.</li>
+            <li><strong>Check-out Time:</strong> <strong>10:00 AM</strong> strictly on Wednesday morning (Oct 21).</li>
+            <li><strong>Hotel Emergency Line (WhatsApp):</strong> <code>818032593409</code><br>
+              <a class="wa-btn" href="https://wa.me/818032593409" target="_blank" rel="noopener">💬 Chat with Hotel via WhatsApp (+81 80 3259 3409)</a>
+            </li>
           </ul>
 
+          <!-- Special Check-in instructions -->
+          <div class="info-callout-box">
+            <div class="info-callout-title">🔑 Special Check-In Instructions (See Hotel Voucher)</div>
+            <p>There is no front desk at this property. Guests will receive an email within 24 hours before arrival with check-in instructions and an access code. Guests can access their accommodation through a private entrance using keypad password <strong>5892</strong>. A virtual front desk provides assistance to guests. Information provided by the property may be translated using automated translation tools.</p>
+          </div>
+
+          <!-- Self Check-out instructions -->
+          <div class="info-callout-box checkout-box">
+            <div class="info-callout-title">🚪 Self Check-Out by 10:00 AM (See Main Travel Voucher)</div>
+            <p>The hotel is self check-out by tablet. Enter the check-out code <strong>073461</strong> or hold up the QR code on the tablet installed at the hotel. When check-out is completed, the completion screen will be displayed on the tablet.</p>
+          </div>
+
+          <!-- City Tax Note -->
+          <div class="info-callout-box tax-box">
+            <div class="info-callout-title">💴 City Tax Notice</div>
+            <p>A city tax may be collected at the property. The city tax ranges from <strong>JPY 100–10,000 per person, per night</strong> based on the nightly room rate. Please note that further exemptions may apply.</p>
+          </div>
+
+          <!-- Address Box -->
           <div style="background: var(--bg-surface); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
             <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); font-weight: 800; margin-bottom: 4px;">Hotel Address (Show to Driver)</div>
             <div style="font-family: var(--font-jp); font-weight: 700; font-size: 1.15rem; color: #fff;">エスリードホテル難波サウスⅠ</div>
-            <div style="font-family: var(--font-jp); color: var(--text-muted); font-size: 0.92rem;">〒556-0003 大阪府大阪市浪速区恵美須西3-11-25</div>
+            <div style="font-family: var(--font-jp); color: var(--text-muted); font-size: 0.92rem;">〒556-0003 大阪府大阪市浪速区恵美須西3-11-25 (3-CHOME-11-25 EBISUNISHI NANIWA WARD, OSAKA, JP)</div>
             <div style="margin-top: 10px;">
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Eslead+Hotel+Namba+South+1+Osaka" target="_blank" rel="noopener">Open in Google Maps</a>
             </div>
@@ -1178,29 +1383,50 @@ HTML_CONTENT = """<!DOCTYPE html>
 
     <!-- Quick Action Banners -->
     <div class="quick-access-banner">
+      <!-- Oct 17 Pickup -->
       <div class="action-card">
         <span class="action-card-icon">🚐</span>
         <div class="action-card-content">
           <div class="action-card-title">
-            Private Airport Transfers
-            <span class="action-badge">Door-to-Door</span>
+            Oct 17 Airport Pick-up at KIX
+            <span class="action-badge">Voucher Confirmed</span>
           </div>
           <div class="action-card-desc">
-            Day 1: KIX Arrival Lobby pickup (8:05 AM) → Hotel | Day 5: Hotel Lobby pickup (7:00 PM) → KIX Curb
+            <strong>Pick-up Time: 11:30 AM</strong> at KIX Arrival Lobby (Flight GK 82 lands 08:05 AM) | Drive ~45 min to Hotel.<br>
+            Driver No. (WhatsApp): <em>To Follow</em> | Driver will call: <strong>+639498877215</strong>
           </div>
+          <div class="action-card-voucher-note">⚠️ Show official OCT 17 TRANSFER VOUCHER to driver.</div>
         </div>
       </div>
 
+      <!-- Oct 21 Pickup -->
+      <div class="action-card">
+        <span class="action-card-icon">🚐</span>
+        <div class="action-card-content">
+          <div class="action-card-title">
+            Oct 21 Hotel Lobby Pick-up
+            <span class="action-badge badge-amber">Voucher Confirmed</span>
+          </div>
+          <div class="action-card-desc">
+            <strong>Pick-up Time: 6:30 PM</strong> at Eslead Hotel Lobby | Drive ~45 min to KIX Terminal 1 (arrive ~7:15 PM for GK 81 @ 10:25 PM).<br>
+            Driver No. (WhatsApp): <em>To Follow</em> | Driver will call: <strong>+639498877215</strong>
+          </div>
+          <div class="action-card-voucher-note">⚠️ Show official OCT 21 TRANSFER VOUCHER to driver.</div>
+        </div>
+      </div>
+
+      <!-- Kyoto Tour -->
       <div class="action-card">
         <span class="action-card-icon">⛩️</span>
         <div class="action-card-content">
           <div class="action-card-title">
-            Kyoto & Nara Day Tour (Oct 19)
-            <span class="action-badge" style="background: var(--accent-purple);">Confirmed</span>
+            Oct 19 Kyoto & Nara Day Tour
+            <span class="action-badge" style="background: var(--accent-purple);">Voucher Confirmed</span>
           </div>
           <div class="action-card-desc">
-            Ref: <code>26KK212084684</code> | VIP Villa Namba pickup @ <strong>07:50 AM Sharp</strong> (Flag: TABIARUKO)
+            Ref: <code>26KK212084684</code> | <strong>Depart Eslead: 7:00 AM</strong> (Leisurely stroll/train) → <strong>Arrive VIP Villa Namba: 7:40 AM</strong> → <strong>Pick-up: 7:50 AM</strong> → <strong>Departure: 8:00 AM Sharp</strong> (Staff flag: TABIARUKO).
           </div>
+          <div class="action-card-voucher-note">⚠️ Show official KYOTO TOUR VOUCHER to tour staff.</div>
         </div>
         <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=VIP+Villa+Namba+Osaka" target="_blank" rel="noopener">Pickup Map</a>
       </div>
@@ -1213,7 +1439,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="day-title">Day 1: Full Throttle Arrival, Shopping & Neon</div>
           <span class="day-date-tag">Saturday, Oct 17</span>
         </div>
-        <div class="day-theme">Fast bag drop, retro Tsutenkaku tower climb, fluffy soufflé pancakes, Dotonbori neon river cruise, and Hozenji Yokocho alley.</div>
+        <div class="day-theme">11:30 AM KIX pickup, bag drop & locker stow, retro Tsutenkaku tower climb, 4 PM check-in, fluffy soufflé pancakes, Dotonbori neon river cruise.</div>
       </div>
 
       <!-- DAY 1 GOOGLE MAPS ROUTE CARD -->
@@ -1245,20 +1471,49 @@ HTML_CONTENT = """<!DOCTYPE html>
 
       <div class="timeline">
 
-        <!-- Stop 1 -->
+        <!-- Stop 1: KIX Arrival & 11:30 AM Transfer -->
         <article class="stop-card" data-stop="d1-s1">
           <div class="stop-body">
             <div class="stop-header-row">
               <div>
-                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">08:05 AM – 10:15 AM</span>
-                <h3 class="stop-title">KIX Airport Arrival & Private Transfer to Hotel</h3>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">08:05 AM – 12:15 PM</span>
+                <h3 class="stop-title">KIX Airport Arrival & Private Transfer to Hotel (Pick-up: 11:30 AM)</h3>
               </div>
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Terminal+1" target="_blank" rel="noopener">KIX Map</a>
             </div>
             <div class="stop-desc">
               <ul>
-                <li>Land at KIX Terminal 1 on Jetstar GK 82 (08:05 AM). Clear immigration, baggage claim, and customs (~1–1.5 hrs).</li>
-                <li>Meet your private driver at KIX Arrival Lobby. Direct 45-min expressway drive straight to <strong>Eslead Hotel Namba South 1</strong> to drop luggage.</li>
+                <li><strong>08:05 AM:</strong> Land at KIX Terminal 1 on Jetstar <strong>GK 82</strong>. Clear immigration, baggage claim, and customs (~1–1.5 hrs).</li>
+                <li><strong>09:30 AM – 11:15 AM:</strong> Relax, grab coffee / morning breakfast, exchange currency at KIX Terminal 1.</li>
+                <li><strong>11:30 AM Pick-up:</strong> Meet your private driver at KIX Arrival Lobby. <strong>SHOW OFFICIAL OCT 17 TRANSFER VOUCHER ONLY</strong>.</li>
+                <li>Driver No. (WhatsApp): <em>To Follow</em> | Driver will call your WhatsApp: <strong>+639498877215</strong>.</li>
+                <li>Direct 45-min expressway drive straight to <strong>Eslead Hotel Namba South 1</strong> (arriving ~12:15 PM).</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 1.5: Bag Drop & Locker Stow -->
+        <article class="stop-card" data-stop="d1-s1b">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">12:15 PM – 01:00 PM</span>
+                <h3 class="stop-title">Hotel Bag Drop & Stow in Locker (Entrance Password: 5892)</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Eslead+Hotel+Namba+South+1+Osaka" target="_blank" rel="noopener">Hotel Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Arrive at <strong>Eslead Hotel Namba South 1</strong>. Enter front door keypad password: <strong>5892</strong>.</li>
+                <li>Drop off luggage and stow safely in lobby lockers (official room check-in starts at 4:00 PM).</li>
+                <li>Grab day bags and head right across the street into Shinsekai for lunch!</li>
               </ul>
             </div>
             <div class="stop-footer">
@@ -1275,7 +1530,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="stop-image-wrapper" onclick="openLightbox('images/shinsekai.jpg', 'Shinsekai and Tsutenkaku Tower')">
             <img class="stop-image" src="images/shinsekai.jpg" alt="Shinsekai and Tsutenkaku Tower" loading="lazy">
             <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
-            <span class="image-tag-time">10:45 AM – 12:45 PM</span>
+            <span class="image-tag-time">01:00 PM – 02:45 PM</span>
             <span class="image-tag-badge">Stop 1</span>
           </div>
           <div class="photo-caption">📸 Iconic Tsutenkaku Tower rising above the vibrant retro shopfronts, pufferfish lantern, and Kushikatsu restaurants.</div>
@@ -1306,7 +1561,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="stop-image-wrapper" onclick="openLightbox('images/den_den_town.jpg', 'Den Den Town Nipponbashi')">
             <img class="stop-image" src="images/den_den_town.jpg" alt="Den Den Town Nipponbashi" loading="lazy">
             <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
-            <span class="image-tag-time">01:00 PM – 02:45 PM</span>
+            <span class="image-tag-time">02:45 PM – 03:50 PM</span>
             <span class="image-tag-badge">Stop 2</span>
           </div>
           <div class="photo-caption">📸 Sakaisuji Avenue in Nipponbashi — multi-story electronics superstores, retro game centers, and anime hobby shops.</div>
@@ -1316,7 +1571,33 @@ HTML_CONTENT = """<!DOCTYPE html>
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Den+Den+Town+Nipponbashi+Osaka" target="_blank" rel="noopener">Map</a>
             </div>
             <div class="stop-desc">
-              Stroll north along Sakaisuji Avenue into <strong>Den Den Town</strong>. Browse multi-floor gachapon halls, retro games at <em>Super Potato</em>, and anime specialty stores. Return to hotel at 3:00 PM for check-in.
+              Stroll north along Sakaisuji Avenue into <strong>Den Den Town</strong>. Browse multi-floor gachapon halls, retro games at <em>Super Potato</em>, and anime specialty stores. Return to hotel by 4:00 PM for official room check-in.
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
+        <!-- Stop 3.5: Room Check-in -->
+        <article class="stop-card" data-stop="d1-s3b">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">04:00 PM – 04:30 PM</span>
+                <h3 class="stop-title">Official Hotel Check-in (Code: 073461) & Freshen Up</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Eslead+Hotel+Namba+South+1+Osaka" target="_blank" rel="noopener">Hotel Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Return to Eslead Hotel lobby at <strong>4:00 PM</strong>.</li>
+                <li>Self check-in on lobby tablet: Scan QR code or enter code <strong>073461</strong>.</li>
+                <li>Retrieve luggage from lockers, take the elevator up to your room, unpack, freshen up, and get ready for neon evening!</li>
+              </ul>
             </div>
             <div class="stop-footer">
               <label class="check-btn-wrap">
@@ -1332,7 +1613,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="stop-body">
             <div class="stop-header-row">
               <div>
-                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">04:15 PM – 06:15 PM</span>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">04:45 PM – 06:30 PM</span>
                 <h3 class="stop-title">3. Shinsaibashi-Suji Arcade & Fluffy Soufflé Pancakes</h3>
               </div>
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=A+Happy+Pancake+Shinsaibashi+Osaka" target="_blank" rel="noopener">Map</a>
@@ -1661,13 +1942,16 @@ HTML_CONTENT = """<!DOCTYPE html>
         </div>
         <div class="photo-caption">📸 VIP villa Namba (1-2-1 Nanbanaka) — Storefront entrance with red awning & VIP LINER bus stop sign, plus round sidewalk sign under elevated road.</div>
         <div class="stop-body">
-          <h3 class="stop-title" style="margin-bottom: 8px;">1. VIP Villa Namba Tour Pickup Point</h3>
+          <h3 class="stop-title" style="margin-bottom: 8px;">1. VIP Villa Namba Tour Pickup Point (VOUCHER REQUIRED)</h3>
           <div class="stop-desc">
             <ul>
               <li><strong>Booking Reference:</strong> <code>26KK212084684</code> (Lead: Maria Lana, Erroba x 3)</li>
-              <li><strong>Meeting Time:</strong> <strong>07:50 AM (JST)</strong> *(Arrive 10 mins early)* | Departure: <strong>08:00 AM Sharp</strong></li>
+              <li><strong>Departure Time from ESLEAD: 07:00 AM</strong> <em>(Suggest do not leave 7:25 AM to avoid rushed stress of train and walking. Leisurely travel is always preferred!)</em></li>
+              <li><strong>Arrival at Meeting Point: 07:40 AM</strong> <em>(IMPT: Arrive 10 mins before pick-up)</em></li>
+              <li><strong>Pick-up Time: 07:50 AM</strong> | <strong>Coach Departure: 08:00 AM Sharp</strong></li>
               <li><strong>Meeting Point:</strong> <strong>VIP Villa Namba</strong> (1-2-1 Nanbanaka, Naniwa-ku). Look for staff holding <strong>TABIARUKO</strong> flag.</li>
-              <li><strong>Directions from Hotel:</strong> Leave hotel at <strong>07:25 AM</strong>. Shin-Imamiya Station → JR Yamatoji Line 1 stop (3 mins) to <strong>JR Namba Station</strong> (South Exit) → 3-min flat walk (250m) straight to lounge.</li>
+              <li><strong>VOUCHER RULE:</strong> Present official <strong>KYOTO TOUR VOUCHER</strong> to staff.</li>
+              <li><strong>Directions from Hotel:</strong> Leave hotel at 07:00 AM. Shin-Imamiya Station → JR Yamatoji Line 1 stop (3 mins) to <strong>JR Namba Station</strong> (South Exit) → 3-min flat walk (250m) straight to lounge.</li>
             </ul>
           </div>
           <div class="stop-footer">
@@ -1919,12 +2203,37 @@ HTML_CONTENT = """<!DOCTYPE html>
 
       <div class="timeline">
 
+        <!-- Stop 0: 10 AM Check-out -->
+        <article class="stop-card" data-stop="d5-s0">
+          <div class="stop-body">
+            <div class="stop-header-row">
+              <div>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">10:00 AM Strictly</span>
+                <h3 class="stop-title">Hotel Tablet Self Check-out & Bag Stow (Code: 073461)</h3>
+              </div>
+              <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Eslead+Hotel+Namba+South+1+Osaka" target="_blank" rel="noopener">Hotel Map</a>
+            </div>
+            <div class="stop-desc">
+              <ul>
+                <li>Complete self check-out on the lobby tablet by entering code <strong>073461</strong> or scanning the check-in QR code. Completion screen will be displayed on the tablet.</li>
+                <li>Stow heavy luggage safely in the hotel lobby lockers/storage. Travel light all day until evening pickup!</li>
+              </ul>
+            </div>
+            <div class="stop-footer">
+              <label class="check-btn-wrap">
+                <input type="checkbox" onchange="toggleDone(this)">
+                <span class="check-btn-label">Mark as completed</span>
+              </label>
+            </div>
+          </div>
+        </article>
+
         <!-- Stop 1: Kaiyukan -->
         <article class="stop-card" data-stop="d5-s1">
           <div class="stop-image-wrapper" onclick="openLightbox('images/kaiyukan.jpg', 'Osaka Aquarium Kaiyukan Pacific Tank')">
             <img class="stop-image" src="images/kaiyukan.jpg" alt="Osaka Aquarium Kaiyukan" loading="lazy">
             <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
-            <span class="image-tag-time">10:45 AM – 01:45 PM</span>
+            <span class="image-tag-time">10:30 AM – 01:45 PM</span>
             <span class="image-tag-badge">Stop 1</span>
           </div>
           <div class="photo-caption">📸 Osaka Aquarium Kaiyukan — colossal multi-story Pacific Ocean tank home to majestic whale sharks and manta rays.</div>
@@ -1960,13 +2269,13 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="stop-image-wrapper" onclick="openLightbox('images/namba_parks.jpg', 'Namba Parks Canyon Terraces')">
             <img class="stop-image" src="images/namba_parks.jpg" alt="Namba Parks Terraces" loading="lazy">
             <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
-            <span class="image-tag-time">02:30 PM – 05:30 PM</span>
+            <span class="image-tag-time">02:15 PM – 04:30 PM</span>
             <span class="image-tag-badge">Stop 2</span>
           </div>
           <div class="photo-caption">📸 Cascading green canyon terraces and curved pedestrian skywalks of Namba Parks.</div>
           <div class="stop-body">
             <div class="stop-header-row">
-              <h3 class="stop-title">2. Namba Parks Terraces & Takashimaya Depachika Souvenirs</h3>
+              <h3 class="stop-title">2. Namba Parks Rooftop Canyon & Takashimaya Depachika</h3>
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Namba+Parks+Osaka" target="_blank" rel="noopener">Map</a>
             </div>
             <div class="stop-desc">
@@ -1989,13 +2298,13 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="stop-body">
             <div class="stop-header-row">
               <div>
-                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">05:45 PM – 06:45 PM</span>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">04:45 PM – 05:45 PM</span>
                 <h3 class="stop-title">3. MEGA Don Quijote Shinsekai (Last Haul) & Bag Pickup</h3>
               </div>
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=MEGA+Don+Quijote+Shinsekai+Osaka" target="_blank" rel="noopener">Map</a>
             </div>
             <div class="stop-desc">
-              Take Midosuji Line 2 stops back to Dobutsuen-mae. Quick final tax-free shopping sweep at <strong>MEGA Don Quijote Shinsekai</strong> right next to hotel for Japanese snacks, beauty products, and KitKats. Return to Eslead Hotel lobby by 06:50 PM.
+              Take Midosuji Line 2 stops back to Dobutsuen-mae. Quick final tax-free shopping sweep at <strong>MEGA Don Quijote Shinsekai</strong> right next to hotel for Japanese snacks, beauty products, and KitKats. Return to Eslead Hotel lobby by <strong>05:45 PM – 06:15 PM</strong> to retrieve luggage from lockers, repack souvenirs, and freshen up.
             </div>
             <div class="stop-footer">
               <label class="check-btn-wrap">
@@ -2006,21 +2315,23 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
         </article>
 
-        <!-- Stop 4: Departure -->
+        <!-- Stop 4: Departure Pickup -->
         <article class="stop-card" data-stop="d5-s4">
           <div class="stop-body">
             <div class="stop-header-row">
               <div>
-                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">07:00 PM – 10:25 PM</span>
-                <h3 class="stop-title">4. Private Transfer to KIX & Departure Flight GK 81</h3>
+                <span class="image-tag-time" style="position: static; display: inline-block; margin-bottom: 6px;">06:30 PM – 10:25 PM</span>
+                <h3 class="stop-title">4. Hotel Lobby Pickup (6:30 PM) & Departure Flight GK 81</h3>
               </div>
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Kansai+International+Airport+Terminal+1" target="_blank" rel="noopener">KIX Map</a>
             </div>
             <div class="stop-desc">
               <ul>
-                <li><strong>07:00 PM Sharp:</strong> Private airport driver meets you directly in the lobby of <strong>Eslead Hotel Namba South 1</strong>.</li>
-                <li>Direct expressway drive (~45 mins) straight to KIX Terminal 1 Departure Curb by <strong>07:45–08:00 PM</strong>.</li>
-                <li>Check in bags, clear security, and enjoy duty-free shopping before boarding Jetstar <strong>GK 81</strong> (departing 10:25 PM JST).</li>
+                <li><strong>06:30 PM Sharp:</strong> Private airport transfer driver meets you in the lobby of <strong>Eslead Hotel Namba South 1</strong>.</li>
+                <li><strong>VOUCHER REQUIRED:</strong> Show official <strong>OCT 21 TRANSFER VOUCHER</strong> to driver.</li>
+                <li>Driver No. (WhatsApp): <em>To Follow</em> | Driver will call your WhatsApp: <strong>+639498877215</strong>.</li>
+                <li>Direct 45-min expressway drive to KIX Terminal 1 Departure Curb, arriving by <strong>~07:15 PM</strong>.</li>
+                <li>Relaxed check-in for Jetstar <strong>GK 81</strong> (departing 10:25 PM JST), baggage drop, security, dinner, and duty-free shopping before flight home.</li>
               </ul>
             </div>
             <div class="stop-footer">
@@ -2125,14 +2436,13 @@ HTML_CONTENT = """<!DOCTYPE html>
       themeBtn.textContent = currentTheme === 'light' ? '☀️' : '🌙';
     });
 
-    // Copy Check-in Code
-    function copyCheckinCode() {
-      const code = document.getElementById('checkinCode').textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        const btn = document.querySelector('.btn-copy');
-        const orig = btn.textContent;
-        btn.textContent = '✅ Copied!';
-        setTimeout(() => { btn.textContent = orig; }, 2000);
+    // Copy to clipboard helper
+    function copyText(elemId, btnElem) {
+      const text = document.getElementById(elemId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btnElem.textContent;
+        btnElem.textContent = '✅ Copied!';
+        setTimeout(() => { btnElem.textContent = orig; }, 2000);
       });
     }
 
