@@ -126,64 +126,52 @@
       transform: scale(0.92);
     }
 
-    /* Horizontal Quick Day Bar */
-    .day-selector-wrapper {
+    /* Day switcher (Days tab only) */
+    .day-switcher {
+      display: none;
       max-width: 960px;
       margin: 0 auto;
-      padding: 0 18px 12px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      padding: 0 16px 12px;
+      gap: 8px;
+    }
+
+    body[data-active-view="days"] .day-switcher { display: flex; }
+
+    .day-chip {
+      flex: 1 1 0;
       display: flex;
-      gap: 10px;
-    }
-
-    .day-selector-wrapper::-webkit-scrollbar {
-      display: none;
-    }
-
-    .day-pill {
-      flex: 0 0 auto;
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0;
+      border-radius: 12px;
       text-decoration: none;
       color: var(--text-muted);
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      line-height: 1.2;
+      position: relative;
     }
 
-    .day-pill.active, .day-pill:hover {
-      color: #fff;
+    .day-chip .dc-dow { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .day-chip .dc-num { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+
+    .day-chip.active {
       background: var(--accent-red);
       border-color: var(--accent-red);
-      box-shadow: 0 4px 16px var(--accent-red-glow);
-    }
-
-    .day-pill.pill-qr {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: var(--accent-green);
-      color: var(--accent-green);
-    }
-
-    .day-pill.pill-qr.active, .day-pill.pill-qr:hover {
-      background: var(--accent-green);
       color: #fff;
     }
+    .day-chip.active .dc-num { color: #fff; }
 
-    .day-pill.pill-voucher {
-      background: rgba(59, 130, 246, 0.15);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-    }
-
-    .day-pill.pill-voucher.active, .day-pill.pill-voucher:hover {
-      background: var(--accent-blue);
+    .day-chip.is-today::after {
+      content: "TODAY";
+      position: absolute;
+      bottom: -7px;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      padding: 0 5px;
+      border-radius: 6px;
+      background: var(--accent-green);
       color: #fff;
     }
 
@@ -1433,6 +1421,71 @@
       .top-nav { padding: 12px 16px; }
       .btn-maps { padding: 8px 12px; font-size: 0.8rem; }
     }
+    /* ---- Cleanup layer ---- */
+    [hidden] { display: none !important; }
+
+    main { padding-top: 18px; }
+
+    .hero-card { padding: 22px; margin-bottom: 22px; }
+    .hero-title { margin-bottom: 4px; }
+
+    .today-cta {
+      display: block;
+      margin: 14px 0 4px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: var(--accent-red);
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .view-subhead {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-bottom: -2px;
+    }
+
+    .vouchers-rule {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-main);
+      background: rgba(255, 190, 59, 0.12);
+      border-left: 4px solid var(--accent-gold);
+      padding: 12px 14px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin-bottom: 18px;
+    }
+
+    /* Photos: smaller, fewer overlays (time stays; title already numbers the stop) */
+    .stop-image-wrapper .image-tag-badge,
+    .map-screenshot-wrapper .image-tag-badge,
+    .map-screenshot-wrapper .image-tag-time,
+    .stop-card > .photo-caption,
+    .day-map-card > .photo-caption { display: none; }
+
+
+    /* Bottom tab bar: 4 even tabs, safe-area aware */
+    .bottom-bar { padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); }
+    .bottom-bar-inner { gap: 0; }
+    .bottom-link { flex: 1 1 0; padding: 4px 0; font-size: 0.78rem; }
+    body { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+
+    .action-badge { display: none; }
+    .action-card { align-items: flex-start; }
+    .action-card-title { font-size: 1.05rem; font-weight: 800; }
+
+    @media (max-width: 768px) {
+      .action-card-icon { display: none; }
+      .stop-image-wrapper, .stop-image { min-height: 200px; max-height: 240px; }
+      .map-screenshot-wrapper, .map-screenshot-img { min-height: 200px; max-height: 280px; }
+      .hero-card, .cheat-card { padding: 18px; }
+      .day-header { margin-bottom: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -1449,48 +1502,23 @@
       <button class="theme-toggle-btn" id="themeBtn" aria-label="Toggle Theme">🌙</button>
     </div>
 
-    <!-- Quick Day & Feature Filter Pills -->
-    <div class="day-selector-wrapper">
-      <a href="#overview" class="day-pill active">Overview</a>
-      <a href="#vouchers" class="day-pill pill-voucher">📑 Vouchers (PDF)</a>
-      <a href="#hotel-qr" class="day-pill pill-qr">🏨 Hotel Check-in</a>
-      <a href="#day1" class="day-pill">Day 1 (Sat 17)</a>
-      <a href="#day2" class="day-pill">Day 2 (Sun 18)</a>
-      <a href="#day3" class="day-pill">Day 3 (Mon 19)</a>
-      <a href="#day4" class="day-pill">Day 4 (Tue 20)</a>
-      <a href="#day5" class="day-pill">Day 5 (Wed 21)</a>
-      <a href="#cheatsheet" class="day-pill">Cheat Sheet</a>
-    </div>
+    <!-- Day switcher (shown only on the Days tab) -->
+    <nav class="day-switcher" aria-label="Choose a day">
+      <a href="#day1" class="day-chip" data-day="day1"><span class="dc-dow">Sat</span><span class="dc-num">17</span></a>
+      <a href="#day2" class="day-chip" data-day="day2"><span class="dc-dow">Sun</span><span class="dc-num">18</span></a>
+      <a href="#day3" class="day-chip" data-day="day3"><span class="dc-dow">Mon</span><span class="dc-num">19</span></a>
+      <a href="#day4" class="day-chip" data-day="day4"><span class="dc-dow">Tue</span><span class="dc-num">20</span></a>
+      <a href="#day5" class="day-chip" data-day="day5"><span class="dc-dow">Wed</span><span class="dc-num">21</span></a>
+    </nav>
   </header>
 
   <!-- Main Content Area -->
   <main>
 
-    <!-- CRITICAL VOUCHER INSTRUCTION BANNER -->
-    <div class="voucher-alert-box">
-      <div class="voucher-alert-header">
-        <span class="voucher-alert-badge">CRITICAL PROTOCOL</span>
-        <h3>⚠️ Present ONLY Official Vouchers to Drivers & Tour Operators</h3>
-      </div>
-      <div class="voucher-alert-content">
-        <p><strong>Drivers and tour operators will NOT honor any other document.</strong> You must present only the official booking vouchers (tap below to open/download):</p>
-        <div class="voucher-tags-row">
-          <a href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">🚐 <strong>Oct 17 Transfer Voucher</strong> (KIX 11:30 AM) ↗</a>
-          <a href="vouchers/7.2_HOTEL_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">🏨 <strong>Hotel Voucher</strong> (Eslead Hotel) ↗</a>
-          <a href="vouchers/7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">⛩️ <strong>Kyoto Tour Voucher</strong> (Ref: 26KK212084684) ↗</a>
-          <a href="vouchers/7.4_OCT_21_TRANSFER_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">🚐 <strong>Oct 21 Transfer Voucher</strong> (Lobby 6:30 PM) ↗</a>
-          <a href="vouchers/7.1_SERVICE_VOUCHER_MAIN.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">📑 <strong>Main Service Voucher</strong> (Immigration Ref: 1072544) ↗</a>
-        </div>
-        <p class="voucher-alert-footnote">
-          <em>*Refer strictly to the <strong>TRAVEL VOUCHER (MAIN)</strong> sent. This Osaka Master Itinerary serves as your personal offline reference only.</em>
-        </p>
-      </div>
-    </div>
-
     <!-- Overview Section -->
-    <section id="overview" class="hero-card">
-      <div class="hero-title">Osaka Master Trip (Oct 17 – 21, 2026)</div>
-      <div class="hero-subtitle">High-energy, senior-optimized travel companion featuring official Google Maps routes, HOTELSMART self check-in QR code, door-to-door private transfers, and authentic dining.</div>
+    <section id="overview" class="hero-card" data-view="trip">
+      <div class="hero-title">Osaka Trip · Oct 17 – 21, 2026</div>
+      <a href="#" class="today-cta" id="todayCta" hidden></a>
 
       <div class="trip-meta-grid">
         <div class="meta-box">
@@ -1506,24 +1534,21 @@
           <div class="meta-value">Eslead Hotel Namba South 1</div>
         </div>
         <div class="meta-box">
-          <div class="meta-label">Vacation Status</div>
-          <div class="meta-value" style="color: var(--accent-green);">100% On Leave 🎉</div>
+          <div class="meta-label">Hotel Check-in / Check-out</div>
+          <div class="meta-value">4:00 PM Sat 17 · 10:00 AM Wed 21</div>
         </div>
       </div>
     </section>
 
     <!-- OFFICIAL VOUCHERS DOWNLOAD & ACCESS SECTION -->
-    <section id="vouchers" class="vouchers-section">
+    <section id="vouchers" class="vouchers-section" data-view="vouchers">
       <div class="vouchers-header">
         <div class="vouchers-title">
           <span>📑</span>
-          <span>Official Travel Vouchers (PDF)</span>
+          <span>Official Vouchers</span>
         </div>
-        <span class="vouchers-badge">OFFICIAL DOCUMENTS</span>
       </div>
-      <p class="vouchers-intro">
-        All 5 verified agency travel vouchers are stored locally on your device and hosted on GitHub Pages. Show the specific voucher on your phone or provide printed copies as indicated below.
-      </p>
+      <p class="vouchers-rule">⚠️ <strong>Drivers and tour staff only accept these official vouchers.</strong> Show the matching PDF on your phone (or a printed copy). This guide is for your own reference only.</p>
 
       <div class="voucher-cards-grid">
         <!-- 7.1 MAIN SERVICE VOUCHER -->
@@ -1614,7 +1639,7 @@
     </section>
 
     <!-- HOTEL & QR CHECK-IN CARD -->
-    <section id="hotel-qr" class="hotel-qr-section">
+    <section id="hotel-qr" class="hotel-qr-section" data-view="hotel">
       <div class="qr-badge-header">
         <div class="qr-title">
           <span>🏨</span>
@@ -1694,7 +1719,8 @@
     </section>
 
     <!-- Quick Action Banners -->
-    <div class="quick-access-banner">
+    <div class="quick-access-banner" data-view="trip">
+      <h2 class="view-subhead">Pickups &amp; tour</h2>
       <!-- Oct 17 Pickup -->
       <div class="action-card">
         <span class="action-card-icon">🚐</span>
@@ -1756,7 +1782,7 @@
     </div>
 
     <!-- DAY 1 -->
-    <section id="day1" class="day-section">
+    <section id="day1" class="day-section" data-view="days">
       <div class="day-header">
         <div class="day-title-row">
           <div class="day-title">Day 1: Full Throttle Arrival, Shopping & Neon</div>
@@ -1776,7 +1802,7 @@
         
         <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day1.jpg', 'Day 1 Google Maps Route & Stops')">
           <img class="map-screenshot-img" src="images/gmap_route_day1.jpg" alt="Day 1 Google Maps Itinerary" loading="lazy">
-          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-zoom-indicator">🔍 Enlarge map</span>
           <span class="image-tag-time">Full Day Flow</span>
           <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
         </div>
@@ -1857,7 +1883,7 @@
         <article class="stop-card" data-stop="d1-s2">
           <div class="stop-image-wrapper" onclick="openLightbox('images/shinsekai.jpg', 'Shinsekai and Tsutenkaku Tower')">
             <img class="stop-image" src="images/shinsekai.jpg" alt="Shinsekai and Tsutenkaku Tower" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">01:00 PM – 02:45 PM</span>
             <span class="image-tag-badge">Stop 1</span>
           </div>
@@ -1888,7 +1914,7 @@
         <article class="stop-card" data-stop="d1-s3">
           <div class="stop-image-wrapper" onclick="openLightbox('images/den_den_town.jpg', 'Den Den Town Nipponbashi')">
             <img class="stop-image" src="images/den_den_town.jpg" alt="Den Den Town Nipponbashi" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">02:45 PM – 03:50 PM</span>
             <span class="image-tag-badge">Stop 2</span>
           </div>
@@ -1968,7 +1994,7 @@
         <article class="stop-card" data-stop="d1-s5">
           <div class="stop-image-wrapper" onclick="openLightbox('images/dotonbori.jpg', 'Dotonbori Canal and Neon Signs')">
             <img class="stop-image" src="images/dotonbori.jpg" alt="Dotonbori Canal and Neon Signs" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">06:30 PM – 08:15 PM</span>
             <span class="image-tag-badge">Stop 4</span>
           </div>
@@ -1997,7 +2023,7 @@
         <article class="stop-card" data-stop="d1-s6">
           <div class="stop-image-wrapper" onclick="openLightbox('images/hozenji_yokocho.jpg', 'Hozenji Yokocho Alley')">
             <img class="stop-image" src="images/hozenji_yokocho.jpg" alt="Hozenji Yokocho" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">08:15 PM – 09:30 PM</span>
             <span class="image-tag-badge">Stop 5</span>
           </div>
@@ -2023,7 +2049,7 @@
     </section>
 
     <!-- DAY 2 -->
-    <section id="day2" class="day-section">
+    <section id="day2" class="day-section" data-view="days">
       <div class="day-header">
         <div class="day-title-row">
           <div class="day-title">Day 2: Castle, Market Feast & Sunset Skyscraper</div>
@@ -2043,7 +2069,7 @@
         
         <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day2.jpg', 'Day 2 Google Maps Route & Stops')">
           <img class="map-screenshot-img" src="images/gmap_route_day2.jpg" alt="Day 2 Google Maps Itinerary" loading="lazy">
-          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-zoom-indicator">🔍 Enlarge map</span>
           <span class="image-tag-time">Full Day Flow</span>
           <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
         </div>
@@ -2065,7 +2091,7 @@
         <article class="stop-card" data-stop="d2-s1">
           <div class="stop-image-wrapper" onclick="openLightbox('images/osaka_castle.jpg', 'Osaka Castle Main Keep')">
             <img class="stop-image" src="images/osaka_castle.jpg" alt="Osaka Castle Keep" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">09:00 AM – 11:30 AM</span>
             <span class="image-tag-badge">Stop 1</span>
           </div>
@@ -2101,7 +2127,7 @@
         <article class="stop-card" data-stop="d2-s2">
           <div class="stop-image-wrapper" onclick="openLightbox('images/kuromon.jpg', 'Kuromon Ichiba Market')">
             <img class="stop-image" src="images/kuromon.jpg" alt="Kuromon Ichiba Market" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">12:00 PM – 01:30 PM</span>
             <span class="image-tag-badge">Stop 2</span>
           </div>
@@ -2133,7 +2159,7 @@
         <article class="stop-card" data-stop="d2-s3">
           <div class="stop-image-wrapper" onclick="openLightbox('images/namba_yasaka.jpg', 'Namba Yasaka Giant Lion Head Shrine')">
             <img class="stop-image" src="images/namba_yasaka.jpg" alt="Namba Yasaka Shrine" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">01:45 PM – 02:45 PM</span>
             <span class="image-tag-badge">Stop 3</span>
           </div>
@@ -2184,7 +2210,7 @@
         <article class="stop-card" data-stop="d2-s5">
           <div class="stop-image-wrapper" onclick="openLightbox('images/harukas_300.jpg', 'Abeno Harukas 300 Sunset')">
             <img class="stop-image" src="images/harukas_300.jpg" alt="Abeno Harukas 300" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">06:00 PM – 08:30 PM</span>
             <span class="image-tag-badge">Stop 5</span>
           </div>
@@ -2216,7 +2242,7 @@
     </section>
 
     <!-- DAY 3 -->
-    <section id="day3" class="day-section">
+    <section id="day3" class="day-section" data-view="days">
       <div class="day-header">
         <div class="day-title-row">
           <div class="day-title">Day 3: Kyoto & Nara Full-Day Adventure</div>
@@ -2236,7 +2262,7 @@
         
         <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day3.jpg', 'Day 3 Kyoto & Nara Google Maps Tour Route')">
           <img class="map-screenshot-img" src="images/gmap_route_day3.jpg" alt="Day 3 Google Maps Itinerary" loading="lazy">
-          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-zoom-indicator">🔍 Enlarge map</span>
           <span class="image-tag-time">Full Day Guided Flow</span>
           <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
         </div>
@@ -2295,7 +2321,7 @@
         <article class="stop-card" data-stop="d3-s1">
           <div class="stop-image-wrapper" onclick="openLightbox('images/fushimi_inari.jpg', 'Fushimi Inari Taisha Senbon Torii Gates')">
             <img class="stop-image" src="images/fushimi_inari.jpg" alt="Fushimi Inari Taisha" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">Morning Stop</span>
             <span class="image-tag-badge">Stop 2</span>
           </div>
@@ -2321,7 +2347,7 @@
         <article class="stop-card" data-stop="d3-s2">
           <div class="stop-image-wrapper" onclick="openLightbox('images/kinkakuji.jpg', 'Kinkaku-ji Golden Pavilion')">
             <img class="stop-image" src="images/kinkakuji.jpg" alt="Kinkaku-ji Golden Pavilion" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">Midday Stop</span>
             <span class="image-tag-badge">Stop 3</span>
           </div>
@@ -2347,7 +2373,7 @@
         <article class="stop-card" data-stop="d3-s3">
           <div class="stop-image-wrapper" onclick="openLightbox('images/nara_deer.jpg', 'Nara Park Bowing Deer')">
             <img class="stop-image" src="images/nara_deer.jpg" alt="Nara Park Bowing Deer" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">Afternoon Stop</span>
             <span class="image-tag-badge">Stop 4</span>
           </div>
@@ -2394,7 +2420,7 @@
     </section>
 
     <!-- DAY 4 -->
-    <section id="day4" class="day-section">
+    <section id="day4" class="day-section" data-view="days">
       <div class="day-header">
         <div class="day-title-row">
           <div class="day-title">Day 4: Universal Studios Japan (USJ)</div>
@@ -2414,7 +2440,7 @@
         
         <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day4.jpg', 'Day 4 Universal Studios Japan Google Maps Route')">
           <img class="map-screenshot-img" src="images/gmap_route_day4.jpg" alt="Day 4 Google Maps Itinerary" loading="lazy">
-          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-zoom-indicator">🔍 Enlarge map</span>
           <span class="image-tag-time">Full Day Flow</span>
           <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
         </div>
@@ -2433,7 +2459,7 @@
         <article class="stop-card" data-stop="d4-s1">
           <div class="stop-image-wrapper" onclick="openLightbox('images/nintendo_world.jpg', 'Super Nintendo World USJ')">
             <img class="stop-image" src="images/nintendo_world.jpg" alt="Super Nintendo World USJ" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">07:15 AM – 01:00 PM</span>
             <span class="image-tag-badge">Stop 1</span>
           </div>
@@ -2494,7 +2520,7 @@
     </section>
 
     <!-- DAY 5 -->
-    <section id="day5" class="day-section">
+    <section id="day5" class="day-section" data-view="days">
       <div class="day-header">
         <div class="day-title-row">
           <div class="day-title">Day 5: Bay Cruise, Giant Aquarium & Departure</div>
@@ -2514,7 +2540,7 @@
         
         <div class="map-screenshot-wrapper" onclick="openLightbox('images/gmap_route_day5.jpg', 'Day 5 Google Maps Route & Stops')">
           <img class="map-screenshot-img" src="images/gmap_route_day5.jpg" alt="Day 5 Google Maps Itinerary" loading="lazy">
-          <span class="image-zoom-indicator">🔍 Tap to Enlarge Route Map</span>
+          <span class="image-zoom-indicator">🔍 Enlarge map</span>
           <span class="image-tag-time">Full Day Flow</span>
           <span class="image-tag-badge" style="background: #4285F4;">Google Maps</span>
         </div>
@@ -2561,7 +2587,7 @@
         <article class="stop-card" data-stop="d5-s1">
           <div class="stop-image-wrapper" onclick="openLightbox('images/kaiyukan.jpg', 'Osaka Aquarium Kaiyukan Pacific Tank')">
             <img class="stop-image" src="images/kaiyukan.jpg" alt="Osaka Aquarium Kaiyukan" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">10:30 AM – 01:45 PM</span>
             <span class="image-tag-badge">Stop 1</span>
           </div>
@@ -2597,7 +2623,7 @@
         <article class="stop-card" data-stop="d5-s2">
           <div class="stop-image-wrapper" onclick="openLightbox('images/namba_parks.jpg', 'Namba Parks Canyon Terraces')">
             <img class="stop-image" src="images/namba_parks.jpg" alt="Namba Parks Terraces" loading="lazy">
-            <span class="image-zoom-indicator">🔍 Tap for Full Photo</span>
+            <span class="image-zoom-indicator">🔍 Enlarge</span>
             <span class="image-tag-time">02:15 PM – 04:30 PM</span>
             <span class="image-tag-badge">Stop 2</span>
           </div>
@@ -2680,7 +2706,7 @@
     </section>
 
     <!-- Transit Cheat Sheet -->
-    <section id="cheatsheet" class="cheat-card">
+    <section id="cheatsheet" class="cheat-card" data-view="trip">
       <h3>🚇 Senior-Friendly Transit & Nav Cheat Sheet</h3>
       <div class="cheat-grid">
         <div class="cheat-item">
@@ -2712,43 +2738,27 @@
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <div class="bottom-bar">
+  <!-- Bottom Tab Bar -->
+  <nav class="bottom-bar" aria-label="Sections">
     <div class="bottom-bar-inner">
-      <a href="#overview" class="bottom-link active">
+      <a href="#overview" class="bottom-link" data-tab="trip">
         <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-        <span>Top</span>
+        <span>Trip</span>
       </a>
-      <a href="#vouchers" class="bottom-link">
+      <a href="#day1" class="bottom-link" data-tab="days">
+        <svg fill="none" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span>Days</span>
+      </a>
+      <a href="#hotel-qr" class="bottom-link" data-tab="hotel">
+        <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+        <span>Hotel</span>
+      </a>
+      <a href="#vouchers" class="bottom-link" data-tab="vouchers">
         <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         <span>Vouchers</span>
       </a>
-      <a href="#hotel-qr" class="bottom-link">
-        <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
-        <span>Hotel QR</span>
-      </a>
-      <a href="#day1" class="bottom-link">
-        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-        <span>Day 1</span>
-      </a>
-      <a href="#day2" class="bottom-link">
-        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-        <span>Day 2</span>
-      </a>
-      <a href="#day3" class="bottom-link">
-        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-        <span>Day 3</span>
-      </a>
-      <a href="#day4" class="bottom-link">
-        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-        <span>Day 4</span>
-      </a>
-      <a href="#day5" class="bottom-link">
-        <svg fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-        <span>Day 5</span>
-      </a>
     </div>
-  </div>
+  </nav>
 
   <!-- FULLSCREEN LIGHTBOX MODAL -->
   <div id="lightboxModal" class="lightbox-backdrop" onclick="closeLightbox()">
@@ -2829,24 +2839,64 @@
       }
     });
 
-    // Highlight active day pill on scroll
-    const sections = document.querySelectorAll('section');
-    const navPills = document.querySelectorAll('.day-pill');
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        if (pageYOffset >= sectionTop) {
-          current = section.getAttribute('id');
-        }
+    // Tab router: one section visible at a time, driven by the URL hash
+    const ROUTES = {
+      overview: { view: 'trip' }, cheatsheet: { view: 'trip' },
+      vouchers: { view: 'vouchers' }, 'hotel-qr': { view: 'hotel' },
+      day1: { view: 'days', day: 'day1' }, day2: { view: 'days', day: 'day2' },
+      day3: { view: 'days', day: 'day3' }, day4: { view: 'days', day: 'day4' },
+      day5: { view: 'days', day: 'day5' }
+    };
+
+    // Which trip day is it in Osaka right now? (null outside Oct 17-21, 2026)
+    function tripDayToday() {
+      const ymd = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo' }).format(new Date());
+      const map = { '2026-10-17': 'day1', '2026-10-18': 'day2', '2026-10-19': 'day3', '2026-10-20': 'day4', '2026-10-21': 'day5' };
+      return map[ymd] || null;
+    }
+
+    let lastDay = (function () { try { return localStorage.getItem('osaka_last_day'); } catch (e) { return null; } })() || tripDayToday() || 'day1';
+
+    function render() {
+      const key = location.hash.slice(1);
+      const route = ROUTES[key] || { view: 'trip' };
+      const day = route.day || null;
+      if (day) { lastDay = day; try { localStorage.setItem('osaka_last_day', day); } catch (e) {} }
+
+      document.body.setAttribute('data-active-view', route.view);
+      document.querySelectorAll('[data-view]').forEach(el => {
+        let show = el.getAttribute('data-view') === route.view;
+        if (show && route.view === 'days') show = el.id === day;
+        el.hidden = !show;
       });
-      navPills.forEach(pill => {
-        pill.classList.remove('active');
-        if (pill.getAttribute('href') === '#' + current) {
-          pill.classList.add('active');
-        }
+      document.querySelectorAll('.bottom-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.tab === route.view);
+        if (link.dataset.tab === 'days') link.setAttribute('href', '#' + lastDay);
       });
-    });
+      document.querySelectorAll('.day-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.day === day);
+        chip.classList.toggle('is-today', chip.dataset.day === tripDayToday());
+      });
+
+      // Jump to the cheat sheet if that was the link; otherwise start at the top
+      if (key === 'cheatsheet') document.getElementById('cheatsheet').scrollIntoView();
+      else window.scrollTo(0, 0);
+    }
+
+    // "Today" shortcut on the Trip tab during the trip
+    const todayKey = tripDayToday();
+    if (todayKey) {
+      const cta = document.getElementById('todayCta');
+      const n = todayKey.slice(-1);
+      cta.href = '#' + todayKey;
+      cta.textContent = "Open today's plan (Day " + n + ") →";
+      cta.hidden = false;
+    }
+
+    // First load: no hash → today's day during the trip, otherwise the Trip tab
+    if (!location.hash && todayKey) history.replaceState(null, '', '#' + todayKey);
+    window.addEventListener('hashchange', render);
+    render();
   </script>
 
 </body>
