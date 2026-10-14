@@ -188,6 +188,17 @@ HTML_CONTENT = """<!DOCTYPE html>
       color: #fff;
     }
 
+    .day-pill.pill-voucher {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .day-pill.pill-voucher.active, .day-pill.pill-voucher:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
     /* Main Container */
     main {
       max-width: 960px;
@@ -563,6 +574,214 @@ HTML_CONTENT = """<!DOCTYPE html>
       color: var(--accent-gold);
       font-weight: 700;
       margin-top: 4px;
+    }
+
+    /* VOUCHERS DOWNLOAD SECTION */
+    .vouchers-section {
+      background: linear-gradient(145deg, #181d2c 0%, #121520 100%);
+      border: 2px solid var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 16px 40px -10px rgba(59, 130, 246, 0.25);
+      scroll-margin-top: 110px;
+    }
+
+    [data-theme="light"] .vouchers-section {
+      background: linear-gradient(145deg, #eff6ff 0%, #ffffff 100%);
+      border-color: var(--accent-blue);
+    }
+
+    .vouchers-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .vouchers-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    [data-theme="light"] .vouchers-title {
+      color: #1e3a8a;
+    }
+
+    .vouchers-badge {
+      background: var(--accent-blue);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .vouchers-intro {
+      font-size: 0.90rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .voucher-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+    }
+
+    .voucher-download-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.15s ease, border-color 0.2s ease;
+    }
+
+    .voucher-download-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    .vdc-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vdc-tag {
+      font-size: 0.70rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(59, 130, 246, 0.18);
+      color: var(--accent-blue);
+    }
+
+    .vdc-tag.tag-hotel {
+      background: rgba(16, 185, 129, 0.18);
+      color: var(--accent-green);
+    }
+
+    .vdc-tag.tag-driver {
+      background: rgba(255, 190, 59, 0.18);
+      color: var(--accent-gold);
+    }
+
+    .vdc-tag.tag-tour {
+      background: rgba(139, 92, 246, 0.18);
+      color: var(--accent-purple);
+    }
+
+    .vdc-filetype {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+
+    .vdc-name {
+      font-size: 1.0rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .vdc-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .vdc-desc em {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--accent-gold);
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.80rem;
+    }
+
+    .vdc-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-pdf-view {
+      flex: 1;
+      background: var(--accent-blue);
+      color: #fff !important;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-pdf-view:hover {
+      opacity: 0.9;
+    }
+
+    .btn-pdf-download {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main) !important;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-pdf-download:hover {
+      background: var(--border-subtle);
+    }
+
+    .btn-voucher-inline {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue) !important;
+      font-size: 0.80rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      margin-top: 6px;
+    }
+
+    .btn-voucher-inline:hover {
+      background: var(--accent-blue);
+      color: #fff !important;
     }
 
     /* Fast Action Cards */
@@ -1245,7 +1464,8 @@ HTML_CONTENT = """<!DOCTYPE html>
     <!-- Quick Day & Feature Filter Pills -->
     <div class="day-selector-wrapper">
       <a href="#overview" class="day-pill active">Overview</a>
-      <a href="#hotel-qr" class="day-pill pill-qr">🏨 Hotel & Vouchers</a>
+      <a href="#vouchers" class="day-pill pill-voucher">📑 Vouchers (PDF)</a>
+      <a href="#hotel-qr" class="day-pill pill-qr">🏨 Hotel Check-in</a>
       <a href="#day1" class="day-pill">Day 1 (Sat 17)</a>
       <a href="#day2" class="day-pill">Day 2 (Sun 18)</a>
       <a href="#day3" class="day-pill">Day 3 (Mon 19)</a>
@@ -1265,12 +1485,13 @@ HTML_CONTENT = """<!DOCTYPE html>
         <h3>⚠️ Present ONLY Official Vouchers to Drivers & Tour Operators</h3>
       </div>
       <div class="voucher-alert-content">
-        <p><strong>Drivers and tour operators will NOT honor any other document.</strong> You must present only the official booking vouchers:</p>
+        <p><strong>Drivers and tour operators will NOT honor any other document.</strong> You must present only the official booking vouchers (tap below to open/download):</p>
         <div class="voucher-tags-row">
-          <span class="voucher-tag">🚐 <strong>Oct 17 Transfer Voucher</strong> (KIX Pick-up 11:30 AM)</span>
-          <span class="voucher-tag">🏨 <strong>Hotel Voucher</strong> (Eslead Hotel Namba South 1)</span>
-          <span class="voucher-tag">⛩️ <strong>Kyoto Tour Voucher</strong> (VIP Villa Namba Ref: 26KK212084684)</span>
-          <span class="voucher-tag">🚐 <strong>Oct 21 Transfer Voucher</strong> (Hotel Pick-up 6:30 PM)</span>
+          <a href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">🚐 <strong>Oct 17 Transfer Voucher</strong> (KIX 11:30 AM) ↗</a>
+          <a href="vouchers/7.2_HOTEL_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">🏨 <strong>Hotel Voucher</strong> (Eslead Hotel) ↗</a>
+          <a href="vouchers/7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">⛩️ <strong>Kyoto Tour Voucher</strong> (Ref: 26KK212084684) ↗</a>
+          <a href="vouchers/7.4_OCT_21_TRANSFER_VOUCHER.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">🚐 <strong>Oct 21 Transfer Voucher</strong> (Lobby 6:30 PM) ↗</a>
+          <a href="vouchers/7.1_SERVICE_VOUCHER_MAIN.pdf" target="_blank" class="voucher-tag" style="text-decoration:none;">📑 <strong>Main Service Voucher</strong> (Immigration Ref: 1072544) ↗</a>
         </div>
         <p class="voucher-alert-footnote">
           <em>*Refer strictly to the <strong>TRAVEL VOUCHER (MAIN)</strong> sent. This Osaka Master Itinerary serves as your personal offline reference only.</em>
@@ -1299,6 +1520,107 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="meta-box">
           <div class="meta-label">Vacation Status</div>
           <div class="meta-value" style="color: var(--accent-green);">100% On Leave 🎉</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICIAL VOUCHERS DOWNLOAD & ACCESS SECTION -->
+    <section id="vouchers" class="vouchers-section">
+      <div class="vouchers-header">
+        <div class="vouchers-title">
+          <span>📑</span>
+          <span>Official Travel Vouchers (PDF)</span>
+        </div>
+        <span class="vouchers-badge">OFFICIAL DOCUMENTS</span>
+      </div>
+      <p class="vouchers-intro">
+        All 5 verified agency travel vouchers are stored locally on your device and hosted on GitHub Pages. Show the specific voucher on your phone or provide printed copies as indicated below.
+      </p>
+
+      <div class="voucher-cards-grid">
+        <!-- 7.1 MAIN SERVICE VOUCHER -->
+        <div class="voucher-download-card">
+          <div class="vdc-top">
+            <span class="vdc-tag">Immigration & Master Ref</span>
+            <span class="vdc-filetype">PDF • 243 KB</span>
+          </div>
+          <div class="vdc-name">7.1 Main Service Voucher</div>
+          <div class="vdc-desc">
+            Master agency service voucher (Ref: <strong>1072544</strong>). Covers full package: KIX transfers, hotel stay, and Kyoto/Nara tour.<br>
+            <em>*Present at Japanese Immigration upon arrival with Itinerary.</em>
+          </div>
+          <div class="vdc-actions">
+            <a class="btn-pdf-view" href="vouchers/7.1_SERVICE_VOUCHER_MAIN.pdf" target="_blank" rel="noopener">👁️ View PDF</a>
+            <a class="btn-pdf-download" href="vouchers/7.1_SERVICE_VOUCHER_MAIN.pdf" download="7.1_SERVICE_VOUCHER_MAIN.pdf">⬇️ Download</a>
+          </div>
+        </div>
+
+        <!-- 7.2 HOTEL VOUCHER -->
+        <div class="voucher-download-card">
+          <div class="vdc-top">
+            <span class="vdc-tag tag-hotel">Hotel Voucher</span>
+            <span class="vdc-filetype">PDF • 155 KB</span>
+          </div>
+          <div class="vdc-name">7.2 Hotel Voucher (Eslead Hotel)</div>
+          <div class="vdc-desc">
+            Voucher ID: <strong>GO31053488-33691709-A(TH)</strong>. Eslead Hotel Namba South 1 confirmation (Oct 17–21, 4 nights, 1 Deluxe Japanese-Western Family Room).<br>
+            <em>*Show if requested at check-in or by transfer driver.</em>
+          </div>
+          <div class="vdc-actions">
+            <a class="btn-pdf-view" href="vouchers/7.2_HOTEL_VOUCHER.pdf" target="_blank" rel="noopener">👁️ View PDF</a>
+            <a class="btn-pdf-download" href="vouchers/7.2_HOTEL_VOUCHER.pdf" download="7.2_HOTEL_VOUCHER.pdf">⬇️ Download</a>
+          </div>
+        </div>
+
+        <!-- 7.3 OCT 17 TRANSFER VOUCHER -->
+        <div class="voucher-download-card">
+          <div class="vdc-top">
+            <span class="vdc-tag tag-driver">KIX Driver Pickup</span>
+            <span class="vdc-filetype">PDF • 194 KB</span>
+          </div>
+          <div class="vdc-name">7.3 Oct 17 KIX Transfer Voucher</div>
+          <div class="vdc-desc">
+            Order No: <strong>792390452</strong>. KIX Terminal 1 to Eslead Hotel @ 11:30 AM. Signboard: <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong>. 60 mins free wait time.<br>
+            <em>*SHOW ONLY THIS VOUCHER TO THE AIRPORT DRIVER.</em>
+          </div>
+          <div class="vdc-actions">
+            <a class="btn-pdf-view" href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank" rel="noopener">👁️ View PDF</a>
+            <a class="btn-pdf-download" href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" download="7.3_OCT_17_TRANSFER_VOUCHER.pdf">⬇️ Download</a>
+          </div>
+        </div>
+
+        <!-- 7.4 OCT 21 TRANSFER VOUCHER -->
+        <div class="voucher-download-card">
+          <div class="vdc-top">
+            <span class="vdc-tag tag-driver">Hotel Driver Pickup</span>
+            <span class="vdc-filetype">PDF • 76 KB</span>
+          </div>
+          <div class="vdc-name">7.4 Oct 21 Hotel Transfer Voucher</div>
+          <div class="vdc-desc">
+            Order No: <strong>560601906</strong>. Eslead Hotel Lobby to KIX Terminal 1 @ 6:30 PM. Signboard: <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong>.<br>
+            <em>*SHOW ONLY THIS VOUCHER TO THE DEPARTURE DRIVER.</em>
+          </div>
+          <div class="vdc-actions">
+            <a class="btn-pdf-view" href="vouchers/7.4_OCT_21_TRANSFER_VOUCHER.pdf" target="_blank" rel="noopener">👁️ View PDF</a>
+            <a class="btn-pdf-download" href="vouchers/7.4_OCT_21_TRANSFER_VOUCHER.pdf" download="7.4_OCT_21_TRANSFER_VOUCHER.pdf">⬇️ Download</a>
+          </div>
+        </div>
+
+        <!-- 7.5 OCT 19 KYOTO & NARA TOUR VOUCHER -->
+        <div class="voucher-download-card">
+          <div class="vdc-top">
+            <span class="vdc-tag tag-tour">Kyoto & Nara Day Tour</span>
+            <span class="vdc-filetype">PDF • 252 KB</span>
+          </div>
+          <div class="vdc-name">7.5 Kyoto & Nara Tour Voucher</div>
+          <div class="vdc-desc">
+            Booking Ref: <strong>26KK212084684</strong>. VIP Villa Namba meeting point @ 7:50 AM (Depart 8:00 AM Sharp). Staff flag: <strong>TABIARUKO</strong>. Includes Kobe Beef lunch!<br>
+            <em>*SHOW ONLY THIS VOUCHER TO TOUR OPERATOR STAFF.</em>
+          </div>
+          <div class="vdc-actions">
+            <a class="btn-pdf-view" href="vouchers/7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf" target="_blank" rel="noopener">👁️ View PDF</a>
+            <a class="btn-pdf-download" href="vouchers/7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf" download="7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf">⬇️ Download</a>
+          </div>
         </div>
       </div>
     </section>
@@ -1373,8 +1695,10 @@ HTML_CONTENT = """<!DOCTYPE html>
             <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); font-weight: 800; margin-bottom: 4px;">Hotel Address (Show to Driver)</div>
             <div style="font-family: var(--font-jp); font-weight: 700; font-size: 1.15rem; color: #fff;">エスリードホテル難波サウスⅠ</div>
             <div style="font-family: var(--font-jp); color: var(--text-muted); font-size: 0.92rem;">〒556-0003 大阪府大阪市浪速区恵美須西3-11-25 (3-CHOME-11-25 EBISUNISHI NANIWA WARD, OSAKA, JP)</div>
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
               <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=Eslead+Hotel+Namba+South+1+Osaka" target="_blank" rel="noopener">Open in Google Maps</a>
+              <a class="btn-voucher-inline" href="vouchers/7.2_HOTEL_VOUCHER.pdf" target="_blank">📄 Hotel Voucher (PDF)</a>
+              <a class="btn-voucher-inline" href="vouchers/7.1_SERVICE_VOUCHER_MAIN.pdf" target="_blank">📑 Main Service Voucher (PDF)</a>
             </div>
           </div>
         </div>
@@ -1393,9 +1717,13 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
           <div class="action-card-desc">
             <strong>Pick-up Time: 11:30 AM</strong> at KIX Arrival Lobby (Flight GK 82 lands 08:05 AM) | Drive ~45 min to Hotel.<br>
+            Driver Signboard: <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong><br>
             Driver No. (WhatsApp): <em>To Follow</em> | Driver will call: <strong>+639498877215</strong>
           </div>
           <div class="action-card-voucher-note">⚠️ Show official OCT 17 TRANSFER VOUCHER to driver.</div>
+          <div style="margin-top: 8px;">
+            <a class="btn-voucher-inline" href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank">📄 View Oct 17 Transfer Voucher (PDF)</a>
+          </div>
         </div>
       </div>
 
@@ -1409,9 +1737,13 @@ HTML_CONTENT = """<!DOCTYPE html>
           </div>
           <div class="action-card-desc">
             <strong>Pick-up Time: 6:30 PM</strong> at Eslead Hotel Lobby | Drive ~45 min to KIX Terminal 1 (arrive ~7:15 PM for GK 81 @ 10:25 PM).<br>
+            Driver Signboard: <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong><br>
             Driver No. (WhatsApp): <em>To Follow</em> | Driver will call: <strong>+639498877215</strong>
           </div>
           <div class="action-card-voucher-note">⚠️ Show official OCT 21 TRANSFER VOUCHER to driver.</div>
+          <div style="margin-top: 8px;">
+            <a class="btn-voucher-inline" href="vouchers/7.4_OCT_21_TRANSFER_VOUCHER.pdf" target="_blank">📄 View Oct 21 Transfer Voucher (PDF)</a>
+          </div>
         </div>
       </div>
 
@@ -1427,8 +1759,11 @@ HTML_CONTENT = """<!DOCTYPE html>
             Ref: <code>26KK212084684</code> | <strong>Depart Eslead: 7:00 AM</strong> (Leisurely stroll/train) → <strong>Arrive VIP Villa Namba: 7:40 AM</strong> → <strong>Pick-up: 7:50 AM</strong> → <strong>Departure: 8:00 AM Sharp</strong> (Staff flag: TABIARUKO).
           </div>
           <div class="action-card-voucher-note">⚠️ Show official KYOTO TOUR VOUCHER to tour staff.</div>
+          <div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;">
+            <a class="btn-voucher-inline" href="vouchers/7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf" target="_blank">📄 View Kyoto Tour Voucher (PDF)</a>
+            <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=VIP+Villa+Namba+Osaka" target="_blank" rel="noopener">Pickup Map</a>
+          </div>
         </div>
-        <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=VIP+Villa+Namba+Osaka" target="_blank" rel="noopener">Pickup Map</a>
       </div>
     </div>
 
@@ -1483,12 +1818,17 @@ HTML_CONTENT = """<!DOCTYPE html>
             </div>
             <div class="stop-desc">
               <ul>
-                <li><strong>08:05 AM:</strong> Land at KIX Terminal 1 on Jetstar <strong>GK 82</strong>. Clear immigration, baggage claim, and customs (~1–1.5 hrs).</li>
+                <li><strong>08:05 AM:</strong> Land at KIX Terminal 1 on Jetstar <strong>GK 82</strong>. Clear immigration (present <em>7.1 Main Service Voucher</em> + Itinerary), baggage claim, and customs (~1–1.5 hrs).</li>
                 <li><strong>09:30 AM – 11:15 AM:</strong> Relax, grab coffee / morning breakfast, exchange currency at KIX Terminal 1.</li>
-                <li><strong>11:30 AM Pick-up:</strong> Meet your private driver at KIX Arrival Lobby. <strong>SHOW OFFICIAL OCT 17 TRANSFER VOUCHER ONLY</strong>.</li>
+                <li><strong>11:30 AM Pick-up:</strong> Meet your private driver at KIX Terminal 1 Arrival Lobby. <strong>SHOW OFFICIAL OCT 17 TRANSFER VOUCHER ONLY</strong>.</li>
+                <li><strong>Driver Signboard:</strong> <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong></li>
+                <li><strong>Meeting Point at KIX:</strong> If exiting South Exit, wait outside <strong>1F-Exit D</strong>. If exiting North Exit, wait outside <strong>1F-Exit C</strong> (60 mins free wait time included).</li>
                 <li>Driver No. (WhatsApp): <em>To Follow</em> | Driver will call your WhatsApp: <strong>+639498877215</strong>.</li>
                 <li>Direct 45-min expressway drive straight to <strong>Eslead Hotel Namba South 1</strong> (arriving ~12:15 PM).</li>
               </ul>
+              <div style="margin-top: 10px;">
+                <a class="btn-voucher-inline" href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank">📄 View Oct 17 Transfer Voucher (PDF)</a>
+              </div>
             </div>
             <div class="stop-footer">
               <label class="check-btn-wrap">
@@ -1950,11 +2290,12 @@ HTML_CONTENT = """<!DOCTYPE html>
               <li><strong>Arrival at Meeting Point: 07:40 AM</strong> <em>(IMPT: Arrive 10 mins before pick-up)</em></li>
               <li><strong>Pick-up Time: 07:50 AM</strong> | <strong>Coach Departure: 08:00 AM Sharp</strong></li>
               <li><strong>Meeting Point:</strong> <strong>VIP Villa Namba</strong> (1-2-1 Nanbanaka, Naniwa-ku). Look for staff holding <strong>TABIARUKO</strong> flag.</li>
-              <li><strong>VOUCHER RULE:</strong> Present official <strong>KYOTO TOUR VOUCHER</strong> to staff.</li>
+              <li><strong>VOUCHER RULE:</strong> Present official <strong>KYOTO TOUR VOUCHER</strong> to staff (Includes Kobe Beef Lunch!).</li>
               <li><strong>Directions from Hotel:</strong> Leave hotel at 07:00 AM. Shin-Imamiya Station → JR Yamatoji Line 1 stop (3 mins) to <strong>JR Namba Station</strong> (South Exit) → 3-min flat walk (250m) straight to lounge.</li>
             </ul>
           </div>
-          <div class="stop-footer">
+          <div class="stop-footer" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+            <a class="btn-voucher-inline" href="vouchers/7.5_OCT_19_KYOTO_NARA_TOUR_VOUCHER.pdf" target="_blank">📄 View Kyoto & Nara Tour Voucher (PDF)</a>
             <a class="btn-maps" href="https://www.google.com/maps/search/?api=1&query=VIP+Villa+Namba+Osaka" target="_blank" rel="noopener">Pickup Location Map</a>
           </div>
         </div>
@@ -2329,10 +2670,14 @@ HTML_CONTENT = """<!DOCTYPE html>
               <ul>
                 <li><strong>06:30 PM Sharp:</strong> Private airport transfer driver meets you in the lobby of <strong>Eslead Hotel Namba South 1</strong>.</li>
                 <li><strong>VOUCHER REQUIRED:</strong> Show official <strong>OCT 21 TRANSFER VOUCHER</strong> to driver.</li>
+                <li><strong>Driver Signboard:</strong> <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong></li>
                 <li>Driver No. (WhatsApp): <em>To Follow</em> | Driver will call your WhatsApp: <strong>+639498877215</strong>.</li>
                 <li>Direct 45-min expressway drive to KIX Terminal 1 Departure Curb, arriving by <strong>~07:15 PM</strong>.</li>
                 <li>Relaxed check-in for Jetstar <strong>GK 81</strong> (departing 10:25 PM JST), baggage drop, security, dinner, and duty-free shopping before flight home.</li>
               </ul>
+              <div style="margin-top: 10px;">
+                <a class="btn-voucher-inline" href="vouchers/7.4_OCT_21_TRANSFER_VOUCHER.pdf" target="_blank">📄 View Oct 21 Transfer Voucher (PDF)</a>
+              </div>
             </div>
             <div class="stop-footer">
               <label class="check-btn-wrap">
@@ -2385,6 +2730,10 @@ HTML_CONTENT = """<!DOCTYPE html>
       <a href="#overview" class="bottom-link active">
         <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         <span>Top</span>
+      </a>
+      <a href="#vouchers" class="bottom-link">
+        <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>Vouchers</span>
       </a>
       <a href="#hotel-qr" class="bottom-link">
         <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
