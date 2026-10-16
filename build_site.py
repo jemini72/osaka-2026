@@ -1491,6 +1491,22 @@ HTML_CONTENT = """<!DOCTYPE html>
     .action-card { align-items: flex-start; }
     .action-card-title { font-size: 1.05rem; font-weight: 800; }
 
+    .driver-box {
+      margin: 12px 0;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--accent-green);
+      background: rgba(16, 185, 129, 0.10);
+    }
+    .driver-box-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-green); margin-bottom: 8px; }
+    .driver-box-row { display: flex; justify-content: space-between; gap: 12px; font-size: 0.9rem; padding: 3px 0; }
+    .driver-box-row span { color: var(--text-muted); }
+    .driver-box-row strong { color: var(--text-main); text-align: right; }
+    .driver-box-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .driver-btn { flex: 1 1 auto; text-align: center; padding: 9px 10px; border-radius: 10px; background: var(--accent-green); color: #fff; font-weight: 700; font-size: 0.85rem; text-decoration: none; }
+    .driver-box-note { margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); }
+    .driver-box-note a { color: var(--text-main); font-weight: 700; }
+
     @media (max-width: 768px) {
       .action-card-icon { display: none; }
       .stop-image-wrapper, .stop-image { min-height: 200px; max-height: 240px; }
@@ -1601,11 +1617,12 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div class="voucher-download-card">
           <div class="vdc-top">
             <span class="vdc-tag tag-driver">KIX Driver Pickup</span>
-            <span class="vdc-filetype">PDF • 194 KB</span>
+            <span class="vdc-filetype">PDF • 139 KB</span>
           </div>
           <div class="vdc-name">7.3 Oct 17 KIX Transfer Voucher</div>
           <div class="vdc-desc">
             Order No: <strong>792390452</strong>. KIX Terminal 1 to Eslead Hotel @ 11:30 AM. Signboard: <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong>. 60 mins free wait time.<br>
+            <strong>Updated Oct 16 with driver details:</strong> Mr. Qian, +65 6028 8245, black minibus no. 3653.<br>
             <em>*SHOW ONLY THIS VOUCHER TO THE AIRPORT DRIVER.</em>
           </div>
           <div class="vdc-actions">
@@ -1744,8 +1761,20 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="action-card-desc">
             <strong>Pick-up Time: 11:30 AM</strong> at KIX Arrival Lobby (Flight GK 82 lands 08:05 AM) | Drive ~45 min to Hotel.<br>
             Driver Signboard: <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong><br>
-            Driver No. (WhatsApp): <em>To Follow</em> | Driver will call: <strong>+639498877215</strong>
+            Driver will call your WhatsApp: <strong>+639498877215</strong>
           </div>
+          <div class="driver-box">
+              <div class="driver-box-label">Your driver · Oct 17, 11:30 AM</div>
+              <div class="driver-box-row"><span>Driver</span><strong>Mr. Qian</strong></div>
+              <div class="driver-box-row"><span>Vehicle</span><strong>Black minibus (Toyota Hiace) · No. 3653</strong></div>
+              <div class="driver-box-row"><span>Phone</span><strong>+65 6028 8245</strong></div>
+              <div class="driver-box-actions">
+                <a class="driver-btn" href="tel:+6560288245">📞 Call driver</a>
+                <a class="driver-btn" href="https://wa.me/6560288245" target="_blank" rel="noopener">💬 WhatsApp</a>
+                <a class="driver-btn" href="https://transfersupdate.com/transfers/driver-info/792390452/en/4446b11b-0b38-4149-a374-79d0e22bb22a/" target="_blank" rel="noopener">📍 Live driver info</a>
+              </div>
+              <div class="driver-box-note">Can't find the driver? Call support: <a href="tel:+63285402078">(63) 285 402 078 ext. 8</a></div>
+            </div>
           <div class="action-card-voucher-note">⚠️ Show official OCT 17 TRANSFER VOUCHER to driver.</div>
           <div style="margin-top: 8px;">
             <a class="btn-voucher-inline" href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank">📄 View Oct 17 Transfer Voucher (PDF)</a>
@@ -1849,12 +1878,24 @@ HTML_CONTENT = """<!DOCTYPE html>
                 <li><strong>11:30 AM Pick-up:</strong> Meet your private driver at KIX Terminal 1 Arrival Lobby. <strong>SHOW OFFICIAL OCT 17 TRANSFER VOUCHER ONLY</strong>.</li>
                 <li><strong>Driver Signboard:</strong> <strong>[MS MARIA LANA ERROBA AND FAMILY]</strong></li>
                 <li><strong>Meeting Point at KIX:</strong> If exiting South Exit, wait outside <strong>1F-Exit D</strong>. If exiting North Exit, wait outside <strong>1F-Exit C</strong> (60 mins free wait time included).</li>
-                <li>Driver No. (WhatsApp): <em>To Follow</em> | Driver will call your WhatsApp: <strong>+639498877215</strong>.</li>
+                <li>Driver will call your WhatsApp: <strong>+639498877215</strong>. Connect to airport Wi-Fi on landing and message the driver to confirm the meeting point.</li>
                 <li>Direct 45-min expressway drive straight to <strong>Eslead Hotel Namba South 1</strong> (arriving ~12:15 PM).</li>
               </ul>
               <div style="margin-top: 10px;">
                 <a class="btn-voucher-inline" href="vouchers/7.3_OCT_17_TRANSFER_VOUCHER.pdf" target="_blank">📄 View Oct 17 Transfer Voucher (PDF)</a>
               </div>
+              <div class="driver-box">
+              <div class="driver-box-label">Your driver · Oct 17, 11:30 AM</div>
+              <div class="driver-box-row"><span>Driver</span><strong>Mr. Qian</strong></div>
+              <div class="driver-box-row"><span>Vehicle</span><strong>Black minibus (Toyota Hiace) · No. 3653</strong></div>
+              <div class="driver-box-row"><span>Phone</span><strong>+65 6028 8245</strong></div>
+              <div class="driver-box-actions">
+                <a class="driver-btn" href="tel:+6560288245">📞 Call driver</a>
+                <a class="driver-btn" href="https://wa.me/6560288245" target="_blank" rel="noopener">💬 WhatsApp</a>
+                <a class="driver-btn" href="https://transfersupdate.com/transfers/driver-info/792390452/en/4446b11b-0b38-4149-a374-79d0e22bb22a/" target="_blank" rel="noopener">📍 Live driver info</a>
+              </div>
+              <div class="driver-box-note">Can't find the driver? Call support: <a href="tel:+63285402078">(63) 285 402 078 ext. 8</a></div>
+            </div>
             </div>
             <div class="stop-footer">
               <label class="check-btn-wrap">
